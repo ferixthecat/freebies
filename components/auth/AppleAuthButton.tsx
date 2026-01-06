@@ -5,7 +5,7 @@ const AppleAuthButton = () => {
   return (
     <TouchableOpacity style={styles.appleButton}>
       <Ionicons name='logo-apple' size={18} color={'#fff'} />
-      <Text style={styles.appleButtonText}>Sign in with Apple</Text>
+      <Text style={styles.appleButtonText}>Continue with Apple</Text>
     </TouchableOpacity>
   )
 }

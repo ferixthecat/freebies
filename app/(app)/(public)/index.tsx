@@ -1,7 +1,8 @@
 import AppleAuthButton from "@/components/auth/AppleAuthButton";
 import GoogleAuthButton from "@/components/auth/GoogleAuthButton";
 import SmoothInfiniteScroll from "@/components/SmoothInfiniteScroll";
-import { Fonts } from "@/constants/theme";
+import { Colors, Fonts } from "@/constants/theme";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import { LinearGradient } from 'expo-linear-gradient';
 import { Image, Linking, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Animated, { FadeInDown } from 'react-native-reanimated';
@@ -48,7 +49,8 @@ export default function Index() {
           </Animated.View>
           <Animated.View entering={FadeInDown.delay(300)}>
             <TouchableOpacity style={styles.otherButton}>
-              <Text style={styles.otherButtonText}>Other options</Text>
+              <Ionicons name="mail-outline" size={18} color={'#000000'}/>
+              <Text style={styles.otherButtonText}>Continue with email</Text>
             </TouchableOpacity>
           </Animated.View>
         </View>
@@ -94,7 +96,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   otherButton: {
-    backgroundColor: "#f0f0f0",
+    backgroundColor: Colors.light,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
@@ -103,7 +105,7 @@ const styles = StyleSheet.create({
     gap: 4,
   },
   otherButtonText: {
-    color: '#666',
+    color: Colors.dark,
     fontSize: 18,
     fontWeight: '600',
   },
