@@ -1,11 +1,1 @@
-import { Text, View } from "react-native";
-
-const Explore = () => {
-  return (
-    <View>
-      <Text>Explore</Text>
-    </View>
-  );
-};
-
-export default Explore;
+export { default } from '@/components/screens/ExplorePage';
