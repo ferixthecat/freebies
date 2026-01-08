@@ -5,13 +5,15 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import BusinessList from '../BusinessList';
 import { CategoryList } from '../CategoryList';
 
+const HEADER_HEIGHT = 60;
+
 const ExplorePage = () => {
   const insets = useSafeAreaInsets();
   return (
     <View style={styles.container}>
       <Animated.ScrollView
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{paddingTop: insets.top + 60 }}
+        contentContainerStyle={{paddingTop: insets.top + HEADER_HEIGHT }}
       >
         <Text style={styles.pageTitle}>Restaurants</Text>
         <CategoryList />
