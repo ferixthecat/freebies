@@ -168,7 +168,7 @@ const styles = StyleSheet.create({
   },
   locationText: {
     fontSize: 14,
-    fontWeight: 600,
+    fontWeight: "600",
   },
   rightIcons: {
     flexDirection: "row",
@@ -189,7 +189,7 @@ const styles = StyleSheet.create({
   },
   titleSmall: {
     fontSize: 16,
-    fontWeight: 700,
+    fontWeight: "700",
     marginBottom: 2,
   },
   locationSmall: {
