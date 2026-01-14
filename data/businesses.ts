@@ -27,6 +27,64 @@ export interface Restaurant {
   };
 }
 
+/* 
+export interface Freebie {
+  id: string;
+  businessName: string;
+  description: string;
+  category: CategoryId; // High-level: "drinks", "food", etc.
+  types: string[]; // Specific: ["coffee", "bbt"], ["sandwich", "breakfast"]
+  image: ReturnType<typeof require>;
+  
+  offer: {
+    title: string;
+    description?: string;
+    valueRange?: {
+      min: number;
+      max: number;
+    };
+  };
+  
+  requirements: {
+    requiresApp: boolean;
+    requiresEmail: boolean;
+    requiresID: boolean;
+    advanceSignupDays: number;
+    ageRestriction?: number;
+  };
+  
+  redemptionWindow: 'day' | 'week' | 'month';
+  
+  location: {
+    address: string;
+    latitude: number;
+    longitude: number;
+    city: string;
+    postalCode: string;
+  };
+  
+  instructions: string[];
+  restrictions?: string[];
+  website?: string;
+  phone?: string;
+  
+  openingHours?: {
+    monday: string;
+    tuesday: string;
+    wednesday: string;
+    thursday: string;
+    friday: string;
+    saturday: string;
+    sunday: string;
+  };
+  
+  isActive: boolean;
+  verified: boolean;
+  lastVerified?: Date;
+  popularity: number;
+}
+*/
+
 export const restaurants: Restaurant[] = [
   {
     id: "rest_001",
