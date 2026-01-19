@@ -50,3 +50,5 @@ export const categories: Category[] = [
     backgroundColor: "#FFD700",
   },
 ];
+
+export type CategoryId = (typeof categories)[number]["id"];
