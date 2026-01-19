@@ -2,6 +2,7 @@ import type { RestaurantMarker } from "@/data/business_marker";
 import { restaurantMarkers } from "@/data/business_marker";
 import type { Restaurant } from "@/data/businesses";
 import { restaurants } from "@/data/businesses";
+import type { CategoryId } from "@/data/categories";
 
 export const restaurantService = {
   /**
@@ -43,19 +44,58 @@ export const restaurantService = {
         (r) =>
           r.name.toLowerCase().includes(lowerQuery) ||
           r.description.toLowerCase().includes(lowerQuery) ||
-          r.cuisine.some((c) => c.toLowerCase().includes(lowerQuery))
-      )
+          r.types.some((t) => t.toLowerCase().includes(lowerQuery)),
+      ),
     );
   },
 
   /**
-   * Filter restaurants by cuisine
+   * Filter restaurants by category
    */
-  filterByCuisine: async (cuisine: string): Promise<Restaurant[]> => {
+  filterByCategory: async (category: CategoryId): Promise<Restaurant[]> => {
     // TODO: Replace with API call when backend is ready
     // return fetch(`/api/restaurants?cuisine=${cuisine}`).then(res => res.json());
+    return Promise.resolve(restaurants.filter((r) => r.category === category));
+  },
+
+  /**
+   * Filter freebies by type (coffee, bbt, burgers, etc.)
+   */
+  filterByType: async (type: string): Promise<Restaurant[]> => {
+    // TODO: Replace with API call when backend is ready
+    // return fetch(`/api/freebies?type=${type}`).then(res => res.json());
+    return Promise.resolve(restaurants.filter((r) => r.types.includes(type)));
+  },
+
+  /**
+   * Get freebies by redemption window
+   */
+  filterByRedemptionWindow: async (
+    window: "day" | "week" | "month",
+  ): Promise<Restaurant[]> => {
     return Promise.resolve(
-      restaurants.filter((r) => r.cuisine.includes(cuisine))
+      restaurants.filter((r) => r.redemptionWindow === window),
+    );
+  },
+
+  /**
+   * Get "easy" freebies (no app required, no advance signup)
+   */
+  getEasyFreebies: async (): Promise<Restaurant[]> => {
+    return Promise.resolve(
+      restaurants.filter(
+        (r) =>
+          !r.requirements.requiresApp && r.requirements.advanceSignupDays === 0,
+      ),
+    );
+  },
+
+  /**
+   * Get freebies sorted by popularity
+   */
+  getPopular: async (): Promise<Restaurant[]> => {
+    return Promise.resolve(
+      [...restaurants].sort((a, b) => b.popularity - a.popularity),
     );
   },
 };

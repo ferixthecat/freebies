@@ -133,21 +133,24 @@ const Page = () => {
                     <Text style={styles.cardTitle} numberOfLines={1}>
                       {restaurant.name}
                     </Text>
-                    {restaurant.tags.includes("Wolt+") && (
-                      <View style={styles.woltBadge}>
-                        <Text style={styles.woltBadgeText}>W+</Text>
-                      </View>
-                    )}
+                    {!restaurant.requirements.requiresApp &&
+                      restaurant.requirements.advanceSignupDays === 0 && (
+                        <View style={styles.easyBadge}>
+                          <Text style={styles.easyBadgeText}>Easy</Text>
+                        </View>
+                      )}
                   </View>
                   <Text style={styles.cardDescription} numberOfLines={1}>
                     {restaurant.description}
                   </Text>
                   <View style={styles.cardFooter}>
-                    <Ionicons name="bicycle-outline" size={14} color="#666" />
+                    <Ionicons name="calendar-outline" size={14} color="#666" />
                     <Text style={styles.cardFooterText}>
-                      {restaurant.deliveryFee === 0
-                        ? "Free delivery"
-                        : `${restaurant.deliveryFee.toFixed(2)} €`}
+                      {restaurant.redemptionWindow === "day"
+                        ? "Birthday only"
+                        : restaurant.redemptionWindow === "week"
+                          ? "Birthday week"
+                          : "Entire month"}
                     </Text>
                   </View>
                 </View>
@@ -232,13 +235,13 @@ const styles = StyleSheet.create({
     color: "#000",
     flex: 1,
   },
-  woltBadge: {
+  easyBadge: {
     backgroundColor: "#009de0",
     borderRadius: 4,
     paddingHorizontal: 6,
     paddingVertical: 2,
   },
-  woltBadgeText: {
+  easyBadgeText: {
     fontSize: 10,
     fontWeight: "700",
     color: "#fff",
