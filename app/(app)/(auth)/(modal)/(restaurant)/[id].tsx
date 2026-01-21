@@ -1,7 +1,9 @@
 import { Colors } from "@/constants/theme";
+import { useSavedFreebiesStore } from "@/hooks/use-savedfreebies";
 import { useRestaurant } from "@/hooks/useBusinesses";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import * as Haptics from "expo-haptics";
 import { useLocalSearchParams, useRouter } from "expo-router";
 import {
   ActivityIndicator,
@@ -33,6 +35,12 @@ const Page = () => {
     id || "",
   );
 
+  // Add saved freebies store
+  const { toggleFreebie, isSaved } = useSavedFreebiesStore();
+
+  // Check if freebie is saved
+  const isFreebieSaved = restaurant ? isSaved(restaurant.id) : false;
+
   const scrollHandler = useAnimatedScrollHandler({
     onScroll: (event) => {
       scrollOffset.value = event.contentOffset.y;
@@ -44,6 +52,14 @@ const Page = () => {
       opacity: interpolate(scrollOffset.value, [0, IMAGE_HEIGHT / 2], [0, 1]),
     };
   });
+
+  const handleSave = () => {
+    if (!restaurant) return;
+
+    toggleFreebie(restaurant.id);
+
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+  };
 
   if (restaurantLoading) {
     return (
@@ -112,11 +128,11 @@ const Page = () => {
                 </View>
               )}
             </View>
-            <TouchableOpacity style={styles.saveButton}>
+            <TouchableOpacity style={styles.saveButton} onPress={handleSave}>
               <Ionicons
-                name="bookmark-outline"
+                name={isFreebieSaved ? "bookmark" : "bookmark-outline"}
                 size={24}
-                color={Colors.secondary}
+                color={isFreebieSaved ? Colors.secondary : "#9CA3AF"}
               />
             </TouchableOpacity>
           </View>
@@ -245,9 +261,21 @@ const Page = () => {
 
       {/* Save Button (Fixed at bottom) */}
       <View style={[styles.bottomBar, { paddingBottom: insets.bottom }]}>
-        <TouchableOpacity style={styles.saveToListButton}>
-          <Ionicons name="bookmark" size={20} color="white" />
-          <Text style={styles.saveToListButtonText}>Save to My List</Text>
+        <TouchableOpacity
+          style={[
+            styles.saveToListButton,
+            isFreebieSaved && styles.saveToListButtonSaved, // ← Add saved state
+          ]}
+          onPress={handleSave}
+        >
+          <Ionicons
+            name={isFreebieSaved ? "bookmark" : "bookmark-outline"}
+            size={20}
+            color="white"
+          />
+          <Text style={styles.saveToListButtonText}>
+            {isFreebieSaved ? "Saved to My List" : "Save to My List"}
+          </Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -491,6 +519,9 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
     fontWeight: "600",
+  },
+  saveToListButtonSaved: {
+    backgroundColor: "#10B981",
   },
 });
 
