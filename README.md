@@ -84,7 +84,7 @@ freebies/
 
 ## 📄 License
 
-This project is currently unlicensed and for personal/educational use.
+This project is licensed under the MIT License - see the LICENSE file for details.
 
 ---
 
