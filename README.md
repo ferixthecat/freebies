@@ -1,6 +1,6 @@
-# Freebies
+# Freebies - Birthday Rewards Tracker
 
-A mobile application for discovering and saving free items and discounts in your local community for birthdays. Built with React Native and Expo for cross-platform compatibility.
+Never miss out on your birthday freebies again! A mobile application that aggregates birthday rewards and promotions from restaurants and retailers, helping you track and claim all your special day perks. Built with React Native and Expo for cross-platform compatibility.
 
 ## 🚀 Project Status
 
@@ -58,28 +58,16 @@ expo start
    - Scan the QR code with Expo Go (Android) or Camera app (iOS)
    - Or press `a` for Android emulator or `i` for iOS simulator
 
-## 📂 Project Structure
-
-```
-freebies/
-├── src/
-│   ├── components/     # Reusable UI components
-│   ├── screens/        # App screens/pages
-│   ├── navigation/     # Navigation configuration
-│   └── utils/          # Helper functions
-├── assets/             # Images, fonts, etc.
-├── App.js             # Entry point
-└── package.json
-```
-
 ## 🎯 Roadmap
 
 - [ ] Complete core UI/UX design
+- [ ] Build freebie database/catalog
 - [ ] Implement user authentication
+- [ ] Add notification/reminder system
 - [ ] Integrate Supabase backend
+- [ ] Add user profiles with saved freebies
 - [ ] Add location-based filtering
 - [ ] Implement push notifications
-- [ ] Add image upload functionality
 - [ ] Deploy to App Store and Google Play
 
 ## 📄 License
