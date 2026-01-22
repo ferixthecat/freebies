@@ -1,50 +1,91 @@
-# Welcome to your Expo app 👋
+# Freebies
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A mobile application for discovering and saving free items and discounts in your local community for birthdays. Built with React Native and Expo for cross-platform compatibility.
 
-## Get started
+## 🚀 Project Status
 
-1. Install dependencies
+**Currently in Development** - This project is actively being developed with a focus on building out the frontend experience. Backend integration with Supabase is planned for future iterations.
 
-   ```bash
-   npm install
-   ```
+## 📱 Features
 
-2. Start the app
+- Browse available birthday freebies in your area
+- User-friendly mobile interface for iOS and Android
+- Local data management for development and testing
 
-   ```bash
-   npx expo start
-   ```
+## 🛠️ Tech Stack
 
-In the output, you'll find options to open the app in a
+- **Frontend:** React Native (Expo)
+- **Language:** TypeScript / JavaScript
+- **Data Storage:** Local storage
+- **Backend (Planned):** Supabase
+- **Development Tools:** Expo Go, VS Code
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## 📋 Prerequisites
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+Before running this project, make sure you have:
 
-## Get a fresh project
+- Node.js (v16 or higher)
+- npm or yarn
+- Expo CLI (`npm install -g expo-cli`)
+- Expo Go app on your mobile device (for testing)
 
-When you're ready, run:
+## 🔧 Installation
+
+1. Clone the repository
 
 ```bash
-npm run reset-project
+git clone https://github.com/ferixthecat/freebies.git
+cd freebies
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+2. Install dependencies
 
-## Learn more
+```bash
+npm install
+# or
+yarn install
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+3. Start the development server
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+```bash
+npx expo start
+# or
+expo start
+```
 
-## Join the community
+4. Run on your device
+   - Scan the QR code with Expo Go (Android) or Camera app (iOS)
+   - Or press `a` for Android emulator or `i` for iOS simulator
 
-Join our community of developers creating universal apps.
+## 📂 Project Structure
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+```
+freebies/
+├── src/
+│   ├── components/     # Reusable UI components
+│   ├── screens/        # App screens/pages
+│   ├── navigation/     # Navigation configuration
+│   └── utils/          # Helper functions
+├── assets/             # Images, fonts, etc.
+├── App.js             # Entry point
+└── package.json
+```
+
+## 🎯 Roadmap
+
+- [ ] Complete core UI/UX design
+- [ ] Implement user authentication
+- [ ] Integrate Supabase backend
+- [ ] Add location-based filtering
+- [ ] Implement push notifications
+- [ ] Add image upload functionality
+- [ ] Deploy to App Store and Google Play
+
+## 📄 License
+
+This project is currently unlicensed and for personal/educational use.
+
+---
+
+_Note: This app is in active development. Features and documentation will be updated as the project progresses._
