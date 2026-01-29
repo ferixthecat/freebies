@@ -1,3 +1,4 @@
+import { Fonts } from "@/constants/theme";
 import { Stack } from "expo-router";
 
 const Layout = () => {
@@ -6,9 +7,14 @@ const Layout = () => {
       <Stack.Screen
         name="index"
         options={{
-          title: "Profile",
+          headerTitle: "Profile",
           headerLargeTitle: true,
           headerTransparent: true,
+          headerLargeTitleStyle: {
+            fontFamily: Fonts.brandBold,
+            fontWeight: "900",
+            color: "#000",
+          },
         }}
       />
     </Stack>
