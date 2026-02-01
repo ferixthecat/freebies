@@ -1,3 +1,4 @@
+import { categoryImages } from "@/constants/images";
 import { Colors } from "@/constants/theme";
 import { useSavedFreebiesStore } from "@/hooks/use-savedfreebies";
 import { useRestaurant } from "@/hooks/useBusinesses";
@@ -83,7 +84,7 @@ const Page = () => {
       <Animated.Image
         style={styles.backgroundImage}
         resizeMode={"cover"}
-        source={restaurant.image!}
+        source={categoryImages[restaurant.category]}
       />
 
       {/* Animated Header Bar */}
