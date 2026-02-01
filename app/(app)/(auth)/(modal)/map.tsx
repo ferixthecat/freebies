@@ -1,3 +1,4 @@
+import { categoryImages } from "@/constants/images";
 import { Colors } from "@/constants/theme";
 import { useRestaurantMarkers, useRestaurants } from "@/hooks/useBusinesses";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -127,7 +128,10 @@ const Page = () => {
                   router.push(`/(modal)/(restaurant)/${restaurant.id}`)
                 }
               >
-                <Image source={restaurant.image!} style={styles.cardImage} />
+                <Image
+                  source={categoryImages[restaurant.category]}
+                  style={styles.cardImage}
+                />
                 <View style={styles.cardContent}>
                   <View style={styles.cardHeader}>
                     <Text style={styles.cardTitle} numberOfLines={1}>

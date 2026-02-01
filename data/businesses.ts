@@ -6,7 +6,6 @@ export interface Restaurant {
   description: string;
   category: CategoryId; // High-level: "drinks", "food", "desserts", "beauty", "retail", "entertainment".
   types: string[]; // Specific: ["coffee", "bbt"], ["sandwich", "breakfast"]
-  image: ReturnType<typeof require>;
 
   offer: {
     title: string;
@@ -46,7 +45,6 @@ export const restaurants: Restaurant[] = [
       "Get any size handcrafted beverage or food item free on your birthday when you're a Starbucks Rewards member",
     category: "drinks",
     types: ["coffee"],
-    image: require("@/assets/images/freebies/starbucks.png"),
 
     offer: {
       title: "Free Birthday Drink or Food",
@@ -102,7 +100,6 @@ export const restaurants: Restaurant[] = [
       "Get a free regular-sized drink on your birthday through the Chatime Societea Rewards program",
     category: "drinks",
     types: ["bubble-tea", "bbt"],
-    image: require("@/assets/images/freebies/chatime.png"),
 
     offer: {
       title: "Free Birthday Drink",
@@ -154,7 +151,6 @@ export const restaurants: Restaurant[] = [
       "Celebrate with a free breakfast sandwich or drink when you're a Tims Rewards member",
     category: "food",
     types: ["breakfast", "coffee", "fast-food"],
-    image: require("@/assets/images/freebies/tim-hortons.png"),
 
     offer: {
       title: "Free Breakfast Sandwich or Drink",
@@ -204,7 +200,6 @@ export const restaurants: Restaurant[] = [
       "Get a birthday treat when you're part of the Blizzard Fan Club",
     category: "desserts",
     types: ["ice-cream", "frozen-treats"],
-    image: require("@/assets/images/freebies/dairy-queen.png"),
 
     offer: {
       title: "Birthday Blizzard Treat",
@@ -252,7 +247,6 @@ export const restaurants: Restaurant[] = [
       "Build your own free Grand Slam breakfast on your actual birthday",
     category: "food",
     types: ["breakfast", "diner"],
-    image: require("@/assets/images/freebies/dennys.png"),
 
     offer: {
       title: "Free Build Your Own Grand Slam",
@@ -300,7 +294,6 @@ export const restaurants: Restaurant[] = [
       "Get a free regular sub and drink during the week of your birthday",
     category: "food",
     types: ["sandwich", "subs"],
-    image: require("@/assets/images/freebies/jersey-mikes.png"),
 
     offer: {
       title: "Free Regular Sub & 16oz Drink",
@@ -348,7 +341,6 @@ export const restaurants: Restaurant[] = [
       "Sign up at least seven days before your birthday for free ice cream",
     category: "desserts",
     types: ["ice-cream"],
-    image: require("@/assets/images/freebies/marble-slab.png"),
 
     offer: {
       title: "Free Ice Cream",
@@ -396,7 +388,6 @@ export const restaurants: Restaurant[] = [
       "Enjoy free prime boneless beef ribs during your birthday month as a member",
     category: "food",
     types: ["hotpot", "chinese"],
-    image: require("@/assets/images/freebies/haidilao.png"),
 
     offer: {
       title: "Free Prime Boneless Beef Ribs",
@@ -446,7 +437,6 @@ export const restaurants: Restaurant[] = [
       "Get free regular-size fries when you sign up for their rewards program",
     category: "food",
     types: ["fast-food", "fries"],
-    image: require("@/assets/images/freebies/new-york-fries.png"),
 
     offer: {
       title: "Free Regular Size Fries",
@@ -492,7 +482,6 @@ export const restaurants: Restaurant[] = [
     description: "Get a free kiddie scoop through their rewards program",
     category: "desserts",
     types: ["ice-cream"],
-    image: require("@/assets/images/freebies/baskin-robbins.png"),
 
     offer: {
       title: "Free Kiddie Scoop",
@@ -539,7 +528,6 @@ export const restaurants: Restaurant[] = [
       "Get a free Slurpee during your birthday month through the 7Rewards app",
     category: "drinks",
     types: ["slurpee", "convenience"],
-    image: require("@/assets/images/freebies/711.png"),
 
     offer: {
       title: "Free Slurpee",
@@ -587,7 +575,6 @@ export const restaurants: Restaurant[] = [
       "Get free chips and your choice of salsa, queso, or guac on your birthday with a minimum purchase",
     category: "food",
     types: ["mexican", "fast-casual"],
-    image: require("@/assets/images/freebies/chipotle.png"),
 
     offer: {
       title: "Free Chips & Dip",
@@ -637,7 +624,6 @@ export const restaurants: Restaurant[] = [
       "Enjoy a free smoothie on your birthday through the Booster Rewards app",
     category: "drinks",
     types: ["smoothies", "juice"],
-    image: require("@/assets/images/freebies/booster-juice.png"),
 
     offer: {
       title: "Free Smoothie",
@@ -686,7 +672,6 @@ export const restaurants: Restaurant[] = [
       "Get a free Baja Blast Freeze through the Taco Bell Rewards app",
     category: "drinks",
     types: ["frozen-drinks", "fast-food"],
-    image: require("@/assets/images/freebies/taco-bell.png"),
 
     offer: {
       title: "Free Baja Blast Freeze",
@@ -733,7 +718,6 @@ export const restaurants: Restaurant[] = [
     description: "Get free medium fries through the McDonald's app",
     category: "food",
     types: ["fast-food", "fries"],
-    image: require("@/assets/images/freebies/mcdonalds.png"),
 
     offer: {
       title: "Free Medium Fries",
@@ -780,7 +764,6 @@ export const restaurants: Restaurant[] = [
     description: "Get a free donut on your birthday",
     category: "desserts",
     types: ["donuts", "bakery"],
-    image: require("@/assets/images/freebies/krispy-kreme.png"),
 
     offer: {
       title: "Free Donut",
@@ -826,7 +809,6 @@ export const restaurants: Restaurant[] = [
     description: "Get a free cookie or 6-inch sub on your birthday",
     category: "food",
     types: ["sandwich", "subs"],
-    image: require("@/assets/images/freebies/subway.png"),
 
     offer: {
       title: "Free Cookie or 6-inch Sub",
@@ -873,7 +855,6 @@ export const restaurants: Restaurant[] = [
     description: "Free drink on your birthday through their rewards app",
     category: "drinks",
     types: ["bubble-tea", "bbt"],
-    image: require("@/assets/images/freebies/the-alley.png"),
 
     offer: {
       title: "Free Bubble Tea",
@@ -920,7 +901,6 @@ export const restaurants: Restaurant[] = [
     description: "Get a free pastry on your birthday as a MyPanera member",
     category: "food",
     types: ["bakery", "cafe"],
-    image: require("@/assets/images/freebies/panera.png"),
 
     offer: {
       title: "Free Pastry",
@@ -967,7 +947,6 @@ export const restaurants: Restaurant[] = [
     description: "Free small Frosty through the Wendy's app",
     category: "desserts",
     types: ["frozen-treats", "fast-food"],
-    image: require("@/assets/images/freebies/wendys.png"),
 
     offer: {
       title: "Free Small Frosty",
@@ -1014,7 +993,6 @@ export const restaurants: Restaurant[] = [
     description: "Free dessert on your birthday through MyBP rewards",
     category: "food",
     types: ["restaurant", "pizza"],
-    image: require("@/assets/images/freebies/boston-pizza.png"),
 
     offer: {
       title: "Free Dessert",
@@ -1061,7 +1039,6 @@ export const restaurants: Restaurant[] = [
     description: "Free treat on your birthday through the COBS app",
     category: "food",
     types: ["bakery"],
-    image: require("@/assets/images/freebies/cobs.png"),
 
     offer: {
       title: "Free Birthday Treat",
@@ -1108,7 +1085,6 @@ export const restaurants: Restaurant[] = [
     description: "Free drink on your birthday through their loyalty program",
     category: "drinks",
     types: ["coffee", "cafe"],
-    image: require("@/assets/images/freebies/second-cup.png"),
 
     offer: {
       title: "Free Birthday Drink",
@@ -1155,7 +1131,6 @@ export const restaurants: Restaurant[] = [
     description: "Free large smoothie on your birthday via email subscription",
     category: "drinks",
     types: ["smoothies", "juice"],
-    image: require("@/assets/images/freebies/jugo-juice.png"),
 
     offer: {
       title: "Free Large Smoothie",
@@ -1202,7 +1177,6 @@ export const restaurants: Restaurant[] = [
     description: "BOGO coupon on your birthday via email",
     category: "food",
     types: ["burgers", "fast-casual"],
-    image: require("@/assets/images/freebies/south-st-burger.png"),
 
     offer: {
       title: "BOGO Burger",
@@ -1250,7 +1224,6 @@ export const restaurants: Restaurant[] = [
     description: "Free $5 coupon on your birthday via email",
     category: "desserts",
     types: ["frozen-yogurt", "ice-cream"],
-    image: require("@/assets/images/freebies/menchies.png"),
 
     offer: {
       title: "Free $5 Coupon",
@@ -1298,7 +1271,6 @@ export const restaurants: Restaurant[] = [
       "Free cookie voucher when you reach Silver status in their rewards program",
     category: "desserts",
     types: ["cookies", "bakery"],
-    image: require("@/assets/images/freebies/crumbl.png"),
 
     offer: {
       title: "Free Cookie Voucher",
@@ -1345,7 +1317,6 @@ export const restaurants: Restaurant[] = [
     description: "Free cone when you show your ID on your birthday",
     category: "desserts",
     types: ["ice-cream", "asian-dessert"],
-    image: require("@/assets/images/freebies/ihalo-krunch.png"),
 
     offer: {
       title: "Free Ice Cream Cone",
@@ -1390,7 +1361,6 @@ export const restaurants: Restaurant[] = [
     description: "Birthday offer through their mailing list",
     category: "food",
     types: ["seafood", "restaurant"],
-    image: require("@/assets/images/freebies/red-lobster.png"),
 
     offer: {
       title: "Birthday Offer",
@@ -1438,7 +1408,6 @@ export const restaurants: Restaurant[] = [
     description: "Free mochi donut when you sign up for their program",
     category: "desserts",
     types: ["donuts", "asian-dessert", "mochi"],
-    image: require("@/assets/images/freebies/marry-me-mochi.png"),
 
     offer: {
       title: "Free Mochi Donut",
@@ -1486,7 +1455,6 @@ export const restaurants: Restaurant[] = [
       "Free 8-piece maki roll when you sign up the month before your birthday",
     category: "food",
     types: ["sushi", "japanese"],
-    image: require("@/assets/images/freebies/toro-toro.png"),
 
     offer: {
       title: "Free 8-Piece Maki Roll",
@@ -1534,7 +1502,6 @@ export const restaurants: Restaurant[] = [
     description: "Enjoy free ramen on your birthday - just show your ID",
     category: "food",
     types: ["ramen", "japanese"],
-    image: require("@/assets/images/freebies/afuri.png"),
 
     offer: {
       title: "Free Ramen",
@@ -1581,7 +1548,6 @@ export const restaurants: Restaurant[] = [
       "Free dessert when you mention it's your birthday - no sign up required",
     category: "food",
     types: ["restaurant", "casual-dining"],
-    image: require("@/assets/images/freebies/earls.png"),
 
     offer: {
       title: "Free Dessert",
@@ -1628,7 +1594,6 @@ export const restaurants: Restaurant[] = [
       "Free medium sub during the week of your birthday when you have an account",
     category: "food",
     types: ["sandwich", "subs"],
-    image: require("@/assets/images/freebies/firehouse-subs.png"),
 
     offer: {
       title: "Free Medium Sub",
@@ -1676,7 +1641,6 @@ export const restaurants: Restaurant[] = [
     description: "Free corn dog on your birthday through their app",
     category: "food",
     types: ["korean", "fast-food"],
-    image: require("@/assets/images/freebies/chungchun.png"),
 
     offer: {
       title: "Free Corn Dog",
@@ -1723,7 +1687,6 @@ export const restaurants: Restaurant[] = [
     description: "Free churro on your birthday through their rewards program",
     category: "food",
     types: ["mexican", "fast-casual"],
-    image: require("@/assets/images/freebies/barburrito.png"),
 
     offer: {
       title: "Free Churro",
@@ -1770,7 +1733,6 @@ export const restaurants: Restaurant[] = [
     description: "Free drink on your birthday through their app",
     category: "drinks",
     types: ["bubble-tea", "tea"],
-    image: require("@/assets/images/freebies/tenren.png"),
 
     offer: {
       title: "Free Birthday Drink",
@@ -1817,7 +1779,6 @@ export const restaurants: Restaurant[] = [
     description: "Birthday reward through their loyalty program",
     category: "drinks",
     types: ["bubble-tea", "tea"],
-    image: require("@/assets/images/freebies/heytea.png"),
 
     offer: {
       title: "Birthday Reward",
@@ -1864,7 +1825,6 @@ export const restaurants: Restaurant[] = [
     description: "Free drink on your birthday through their app",
     category: "drinks",
     types: ["coffee", "cafe"],
-    image: require("@/assets/images/freebies/good-earth.png"),
 
     offer: {
       title: "Free Birthday Drink",
@@ -1911,7 +1871,6 @@ export const restaurants: Restaurant[] = [
     description: "Free nachos on your birthday through their app",
     category: "food",
     types: ["restaurant", "pub", "sports-bar"],
-    image: require("@/assets/images/freebies/canadian-brewhouse.png"),
 
     offer: {
       title: "Free Nachos",
@@ -1959,7 +1918,6 @@ export const restaurants: Restaurant[] = [
     description: "Free cake slice on your birthday through their app",
     category: "desserts",
     types: ["bakery", "cafe", "cake"],
-    image: require("@/assets/images/freebies/paris-baguette.png"),
 
     offer: {
       title: "Free Cake Slice",
@@ -2006,7 +1964,6 @@ export const restaurants: Restaurant[] = [
     description: "Free cookie when you show your ID on your birthday",
     category: "desserts",
     types: ["fast-food", "cookies"],
-    image: require("@/assets/images/freebies/chick-fil-a.png"),
 
     offer: {
       title: "Free Cookie",
@@ -2052,7 +2009,6 @@ export const restaurants: Restaurant[] = [
       "Free smoothie on your birthday through their app (requires past purchase)",
     category: "drinks",
     types: ["smoothies", "juice", "healthy"],
-    image: require("@/assets/images/freebies/nutbar.png"),
 
     offer: {
       title: "Free Smoothie",
@@ -2101,7 +2057,6 @@ export const restaurants: Restaurant[] = [
       "Free 6 bagels when you sign up at least one week before your birthday",
     category: "food",
     types: ["bagels", "bakery"],
-    image: require("@/assets/images/freebies/kettlemans.png"),
 
     offer: {
       title: "Free 6 Bagels",
@@ -2148,7 +2103,6 @@ export const restaurants: Restaurant[] = [
       "Receive a curated mini gift set during your birthday month as a Beauty Insider member",
     category: "beauty",
     types: ["cosmetics", "skincare", "luxury"],
-    image: require("@/assets/images/freebies/sephora.png"),
 
     offer: {
       title: "Birthday Gift Set",
@@ -2200,7 +2154,6 @@ export const restaurants: Restaurant[] = [
     description: "Free makeup goodies when you have a MAC Lover account",
     category: "makeup",
     types: ["cosmetics", "luxury"],
-    image: require("@/assets/images/freebies/mac.png"),
 
     offer: {
       title: "Birthday Makeup Gift",
@@ -2249,7 +2202,6 @@ export const restaurants: Restaurant[] = [
     description: "Special birthday gift for Kiehl's Rewards members",
     category: "skincare",
     types: ["luxury", "skincare"],
-    image: require("@/assets/images/freebies/kiehls.png"),
 
     offer: {
       title: "Birthday Skincare Gift",
@@ -2297,7 +2249,6 @@ export const restaurants: Restaurant[] = [
     description: "Free gift with purchase during your birthday month",
     category: "beauty",
     types: ["skincare", "luxury", "fragrance"],
-    image: require("@/assets/images/freebies/loccitane.png"),
 
     offer: {
       title: "Birthday Gift with Purchase",
@@ -2345,7 +2296,6 @@ export const restaurants: Restaurant[] = [
     description: "Receive a $10 reward during your birthday month",
     category: "beauty",
     types: ["skincare", "beauty", "ethical"],
-    image: require("@/assets/images/freebies/body-shop.png"),
 
     offer: {
       title: "$10 Birthday Reward",
@@ -2394,7 +2344,6 @@ export const restaurants: Restaurant[] = [
     description: "Free wax service on the house if you're a member",
     category: "beauty",
     types: ["waxing", "beauty-services"],
-    image: require("@/assets/images/freebies/fuzz-wax.png"),
 
     offer: {
       title: "Free Wax Service",
@@ -2444,7 +2393,6 @@ export const restaurants: Restaurant[] = [
       "Free bag of Lindor chocolates when you're on the mailing list",
     category: "food",
     types: ["chocolate", "treats"],
-    image: require("@/assets/images/freebies/lindt.png"),
 
     offer: {
       title: "Free Lindor Bag",
@@ -2492,7 +2440,6 @@ export const restaurants: Restaurant[] = [
     description: "Free skincare product on your birthday",
     category: "beauty",
     types: ["k-beauty", "asian-beauty", "skincare"],
-    image: require("@/assets/images/freebies/sukoshi-mart.png"),
 
     offer: {
       title: "Free Skincare Product",
@@ -2539,7 +2486,6 @@ export const restaurants: Restaurant[] = [
       "Get 20% off your purchase as a PLUM member, plus extra bonus points if you're PLUM+",
     category: "bookstore",
     types: ["books", "lifestyle", "gifts"],
-    image: require("@/assets/images/freebies/indigo.png"),
 
     offer: {
       title: "20% Off + Bonus Points",
@@ -2591,7 +2537,6 @@ export const restaurants: Restaurant[] = [
     description: "Receive 25% off during your birthday month as an H&M member",
     category: "retail",
     types: ["fashion", "fast-fashion"],
-    image: require("@/assets/images/freebies/hm.png"),
 
     offer: {
       title: "25% Off Birthday Discount",
@@ -2640,7 +2585,6 @@ export const restaurants: Restaurant[] = [
     description: "Get 20% off during your birthday month",
     category: "retail",
     types: ["fashion", "accessories", "teen"],
-    image: require("@/assets/images/freebies/ardene.png"),
 
     offer: {
       title: "20% Off Birthday Discount",
@@ -2688,7 +2632,6 @@ export const restaurants: Restaurant[] = [
     description: "Receive a $5 voucher on your birthday",
     category: "retail",
     types: ["fashion", "casual"],
-    image: require("@/assets/images/freebies/american-eagle.png"),
 
     offer: {
       title: "$5 Birthday Voucher",
@@ -2737,7 +2680,6 @@ export const restaurants: Restaurant[] = [
     description: "Get a $5 voucher during your birthday month",
     category: "retail",
     types: ["intimates", "loungewear", "fashion"],
-    image: require("@/assets/images/freebies/aerie.png"),
 
     offer: {
       title: "$5 Birthday Voucher",
@@ -2786,7 +2728,6 @@ export const restaurants: Restaurant[] = [
     description: "Enjoy 20% off during your birthday month",
     category: "beauty",
     types: ["jewelry", "luxury", "crystal"],
-    image: require("@/assets/images/freebies/swarovski.png"),
 
     offer: {
       title: "20% Off Birthday Discount",
@@ -2834,7 +2775,6 @@ export const restaurants: Restaurant[] = [
     description: "Get a $5 voucher on your birthday",
     category: "beauty",
     types: ["beauty-supplies", "haircare"],
-    image: require("@/assets/images/freebies/sally-beauty.png"),
 
     offer: {
       title: "$5 Birthday Voucher",
@@ -2882,7 +2822,6 @@ export const restaurants: Restaurant[] = [
     description: "Receive 100 bonus points on your birthday",
     category: "retail",
     types: ["airline", "points"],
-    image: require("@/assets/images/freebies/air-canada.png"),
 
     offer: {
       title: "100 Bonus Aeroplan Points",
@@ -2930,7 +2869,6 @@ export const restaurants: Restaurant[] = [
     description: "Receive bonus points on your birthday",
     category: "retail",
     types: ["secondhand", "thrift-store"],
-    image: require("@/assets/images/freebies/mission-thrift.png"),
 
     offer: {
       title: "Birthday Bonus Points",
@@ -2977,7 +2915,6 @@ export const restaurants: Restaurant[] = [
     description: "Get 20% off on your birthday",
     category: "retail",
     types: ["secondhand", "thrift-store"],
-    image: require("@/assets/images/freebies/value-village.png"),
 
     offer: {
       title: "20% Off Birthday Discount",
@@ -3026,7 +2963,6 @@ export const restaurants: Restaurant[] = [
     description: "Special birthday offer for your pet",
     category: "retail",
     types: ["pet-supplies", "pet-food"],
-    image: require("@/assets/images/freebies/pet-valu.png"),
 
     offer: {
       title: "Pet Birthday Offer",
@@ -3074,7 +3010,6 @@ export const restaurants: Restaurant[] = [
     description: "Birthday pet coupon or treat for your furry friend",
     category: "retail",
     types: ["pet-supplies", "pet-services"],
-    image: require("@/assets/images/freebies/petsmart.png"),
 
     offer: {
       title: "Pet Birthday Treat/Coupon",
@@ -3122,7 +3057,6 @@ export const restaurants: Restaurant[] = [
     description: "Pay your age for a birthday bear (age restrictions apply)",
     category: "entertainment",
     types: ["toys", "gifts", "experience"],
-    image: require("@/assets/images/freebies/build-a-bear.png"),
 
     offer: {
       title: "Pay-Your-Age Birthday Bear",
@@ -3174,7 +3108,6 @@ export const restaurants: Restaurant[] = [
     description: "Free Bundtlet cake on your birthday when you have an account",
     category: "desserts",
     types: ["bakery", "cake", "treats"],
-    image: require("@/assets/images/freebies/nothing-bundt-cakes.png"),
 
     offer: {
       title: "Free Bundtlet",
@@ -3221,7 +3154,6 @@ export const restaurants: Restaurant[] = [
     description: "Get a free pie when you sign up for the Burger Boss Club",
     category: "food",
     types: ["burgers", "fast-food"],
-    image: require("@/assets/images/freebies/harveys.png"),
 
     offer: {
       title: "Free Pie",
@@ -3270,7 +3202,6 @@ export const restaurants: Restaurant[] = [
       "Get a free dessert on your birthday through the Rotisserie Mail program",
     category: "food",
     types: ["rotisserie", "chicken", "canadian"],
-    image: require("@/assets/images/freebies/swiss-chalet.png"),
 
     offer: {
       title: "Free Birthday Dessert",
@@ -3320,7 +3251,6 @@ export const restaurants: Restaurant[] = [
       "Free Billy Miner Pie dessert when you mention it's your birthday",
     category: "food",
     types: ["steakhouse", "fine-dining"],
-    image: require("@/assets/images/freebies/the-keg.png"),
 
     offer: {
       title: "Free Billy Miner Pie",
@@ -3370,7 +3300,6 @@ export const restaurants: Restaurant[] = [
       "6 free puffs on your birthday through the Puffs Points rewards program",
     category: "desserts",
     types: ["donuts", "fried-dough", "dessert-bar"],
-    image: require("@/assets/images/freebies/mr-puffs.png"),
 
     offer: {
       title: "Free 6 Puffs",
@@ -3421,7 +3350,6 @@ export const restaurants: Restaurant[] = [
       "Free cheeseburger plus a special birthday treat when you join The Congregation",
     category: "food",
     types: ["burgers", "fast-food"],
-    image: require("@/assets/images/freebies/burgers-priest.png"),
 
     offer: {
       title: "Free Cheeseburger + Birthday Treat",
@@ -3469,7 +3397,6 @@ export const restaurants: Restaurant[] = [
     description: "Triple points on your birthday purchase",
     category: "food",
     types: ["breakfast", "brunch", "canadian"],
-    image: require("@/assets/images/freebies/coras.png"),
 
     offer: {
       title: "Triple Loyalty Points",
@@ -3518,7 +3445,6 @@ export const restaurants: Restaurant[] = [
     description: "Free dessert on your birthday",
     category: "food",
     types: ["italian", "casual-dining"],
-    image: require("@/assets/images/freebies/east-side-marios.png"),
 
     offer: {
       title: "Free Birthday Dessert",
@@ -3566,7 +3492,6 @@ export const restaurants: Restaurant[] = [
     description: "6 free bagels on your birthday",
     category: "food",
     types: ["bagels", "bakery", "breakfast"],
-    image: require("@/assets/images/freebies/great-canadian-bagel.png"),
 
     offer: {
       title: "Free 6 Bagels",
@@ -3613,7 +3538,6 @@ export const restaurants: Restaurant[] = [
     description: "Free dessert on your birthday with Club Applebee's",
     category: "food",
     types: ["american", "casual-dining", "grill"],
-    image: require("@/assets/images/freebies/applebees.png"),
 
     offer: {
       title: "Free Birthday Dessert",
@@ -3663,7 +3587,6 @@ export const restaurants: Restaurant[] = [
     description: "Free dessert on your birthday through The Sizzle program",
     category: "food",
     types: ["tex-mex", "grill", "casual-dining"],
-    image: require("@/assets/images/freebies/lone-star.png"),
 
     offer: {
       title: "Free Birthday Dessert",
@@ -3715,7 +3638,6 @@ export const restaurants: Restaurant[] = [
       "Free buffet meal when you dine with paying guests on your birthday",
     category: "food",
     types: ["buffet", "chinese", "asian"],
-    image: require("@/assets/images/freebies/wok-of-fame.png"),
 
     offer: {
       title: "Free Birthday Buffet",
@@ -3764,7 +3686,6 @@ export const restaurants: Restaurant[] = [
     description: "Birthday reward through their mobile app",
     category: "food",
     types: ["chicken", "portuguese", "fast-casual"],
-    image: require("@/assets/images/freebies/poulet-rouge.png"),
 
     offer: {
       title: "Birthday Reward",
@@ -3813,7 +3734,6 @@ export const restaurants: Restaurant[] = [
     description: "Free smoothie on your birthday through their loyalty program",
     category: "drinks",
     types: ["smoothies", "healthy", "juice-bar"],
-    image: require("@/assets/images/freebies/impakt-kitchen.png"),
 
     offer: {
       title: "Free Birthday Smoothie",
@@ -3860,7 +3780,6 @@ export const restaurants: Restaurant[] = [
     description: "Free chicken bowl, salad, or smoothie through their app",
     category: "food",
     types: ["peruvian", "healthy", "fast-casual", "latin"],
-    image: require("@/assets/images/freebies/brasa.png"),
 
     offer: {
       title: "Free Bowl, Salad, or Smoothie",
@@ -3909,7 +3828,6 @@ export const restaurants: Restaurant[] = [
     description: "Free pretzel when you show your ID on your birthday",
     category: "food",
     types: ["pretzels", "snacks", "fast-food"],
-    image: require("@/assets/images/freebies/wetzels-pretzels.png"),
 
     offer: {
       title: "Free Pretzel",
@@ -3957,7 +3875,6 @@ export const restaurants: Restaurant[] = [
       "Free cookie when you sign up at least one week before your birthday",
     category: "desserts",
     types: ["cookies", "bakery"],
-    image: require("@/assets/images/freebies/night-baker.png"),
 
     offer: {
       title: "Free Cookie",
@@ -4004,7 +3921,6 @@ export const restaurants: Restaurant[] = [
     description: "Free drink on your birthday",
     category: "drinks",
     types: ["coffee", "vietnamese-coffee", "cafe"],
-    image: require("@/assets/images/freebies/cong-caphe.png"),
 
     offer: {
       title: "Free Vietnamese Coffee",

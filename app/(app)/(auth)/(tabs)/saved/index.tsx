@@ -1,3 +1,4 @@
+import { categoryImages } from "@/constants/images";
 import { Colors, Fonts } from "@/constants/theme";
 import { useSavedFreebiesStore } from "@/hooks/use-savedfreebies";
 import { useRestaurants } from "@/hooks/useBusinesses";
@@ -95,7 +96,10 @@ const SavedScreen = () => {
     >
       <Link href={`/(modal)/(restaurant)/${restaurant.id}`} asChild>
         <TouchableOpacity style={styles.card}>
-          <Image source={restaurant.image!} style={styles.cardImage} />
+          <Image
+            source={categoryImages[restaurant.category]}
+            style={styles.cardImage}
+          />
           <View style={styles.cardContent}>
             <View style={styles.cardHeader}>
               <Text style={styles.cardTitle} numberOfLines={1}>

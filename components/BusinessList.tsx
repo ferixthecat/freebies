@@ -1,3 +1,4 @@
+import { categoryImages } from "@/constants/images";
 import { Colors } from "@/constants/theme";
 import { useRestaurants } from "@/hooks/useBusinesses";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -41,7 +42,10 @@ const BusinessList = () => {
         <View key={item.id}>
           <Link href={`(modal)/(restaurant)/${item.id}`} asChild>
             <TouchableOpacity style={styles.card}>
-              <Image source={item.image!} style={styles.image} />
+              <Image
+                source={categoryImages[item.category]}
+                style={styles.image}
+              />
               <View style={styles.info}>
                 <Text style={styles.name}>{item.name}</Text>
                 <Text style={styles.description} numberOfLines={2}>
