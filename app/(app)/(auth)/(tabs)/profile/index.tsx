@@ -1,12 +1,27 @@
-import { ScrollView, StyleSheet, Text } from "react-native";
+import AboutSection from "@/components/profile/AboutSection";
+import AccountSection from "@/components/profile/AccountSection";
+import BirthdaySection from "@/components/profile/BirthdaySection";
+import NotificationsSection from "@/components/profile/NotificationSection";
+import SavedFreebiesSection from "@/components/profile/SavedFreebiesSection";
+import { useSavedFreebiesStore } from "@/hooks/use-savedfreebies";
+import useUserStore from "@/hooks/use-userstore";
+import { ScrollView, StyleSheet, View } from "react-native";
 
-const Profile = () => {
+const ProfilePage = () => {
+  const { user, setUser } = useUserStore();
+  const { savedCount, clearAll } = useSavedFreebiesStore();
+
   return (
     <ScrollView
-      contentInsetAdjustmentBehavior="automatic"
       style={styles.container}
+      contentInsetAdjustmentBehavior="automatic"
     >
-      <Text>Profile</Text>
+      <BirthdaySection user={user} setUser={setUser} />
+      <NotificationsSection user={user} setUser={setUser} />
+      <SavedFreebiesSection savedCount={savedCount} clearAll={clearAll} />
+      <AccountSection user={user} setUser={setUser} />
+      <AboutSection />
+      <View style={{ height: 100 }} />
     </ScrollView>
   );
 };
@@ -14,7 +29,8 @@ const Profile = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: "#F2F2F7",
   },
 });
 
-export default Profile;
+export default ProfilePage;
