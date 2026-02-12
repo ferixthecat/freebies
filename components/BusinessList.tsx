@@ -1,36 +1,21 @@
 import { categoryImages } from "@/constants/images";
 import { Colors } from "@/constants/theme";
-import { useRestaurants } from "@/hooks/useBusinesses";
+import { useFilteredRestaurants } from "@/hooks/useFilteredRestaurants";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Link } from "expo-router";
-import {
-  ActivityIndicator,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const BusinessList = () => {
-  const { data: restaurants, isLoading, error } = useRestaurants();
+  const { restaurants, hasActiveFilters, resultCount } =
+    useFilteredRestaurants();
 
-  if (isLoading) {
+  if (hasActiveFilters && resultCount === 0) {
     return (
-      <View>
-        <ActivityIndicator size={"large"} color={Colors.secondary} />
-      </View>
-    );
-  }
-
-  if (error) {
-    return (
-      <View style={{ padding: 16, alignItems: "center" }}>
-        <Text style={{ color: Colors.dark, marginBottom: 8 }}>
-          Failed to load restaurants
-        </Text>
-        <Text style={{ color: Colors.muted }}>
-          {error instanceof Error ? error.message : "Please try again later"}
+      <View style={styles.emptyState}>
+        <Ionicons name="search-outline" size={48} color={Colors.light} />
+        <Text style={styles.emptyTitle}>No results found</Text>
+        <Text style={styles.emptySubtitle}>
+          Try adjusting your filters or search query
         </Text>
       </View>
     );
@@ -38,7 +23,15 @@ const BusinessList = () => {
 
   return (
     <>
-      {restaurants?.map((item) => (
+      {hasActiveFilters && (
+        <View style={styles.resultsHeader}>
+          <Text style={styles.resultsText}>
+            {resultCount} {resultCount === 1 ? "result" : "results"} found
+          </Text>
+        </View>
+      )}
+
+      {restaurants.map((item) => (
         <View key={item.id}>
           <Link href={`(modal)/(restaurant)/${item.id}`} asChild>
             <TouchableOpacity style={styles.card}>
@@ -55,9 +48,17 @@ const BusinessList = () => {
 
               <View style={styles.metadata}>
                 <Ionicons name="gift-outline" size={16} color={"#666"} />
-                <Text style={styles.metadataText}>Rewards App</Text>
+                <Text style={styles.metadataText}>
+                  {item.requirements.requiresApp ? "Rewards App" : "No App"}
+                </Text>
                 <Text style={styles.dot}>•</Text>
-                <Text style={styles.metadataText}>Birthday day</Text>
+                <Text style={styles.metadataText}>
+                  {item.redemptionWindow === "day"
+                    ? "Birthday day"
+                    : item.redemptionWindow === "week"
+                      ? "Birthday week"
+                      : "Entire month"}
+                </Text>
               </View>
             </TouchableOpacity>
           </Link>
@@ -68,6 +69,33 @@ const BusinessList = () => {
 };
 
 const styles = StyleSheet.create({
+  resultsHeader: {
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+  },
+  resultsText: {
+    fontSize: 13,
+    color: Colors.muted,
+    fontWeight: "500",
+  },
+  emptyState: {
+    paddingVertical: 60,
+    alignItems: "center",
+    paddingHorizontal: 40,
+  },
+  emptyTitle: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: Colors.dark,
+    marginTop: 16,
+    marginBottom: 8,
+  },
+  emptySubtitle: {
+    fontSize: 14,
+    color: Colors.muted,
+    textAlign: "center",
+    lineHeight: 20,
+  },
   card: {
     margin: 16,
     borderRadius: 12,
@@ -75,7 +103,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.light,
     overflow: "hidden",
     boxShadow: "0px 4px 2px -2px rgba(0, 0, 0, 0.2)",
-    elevation: 2, // for Android
+    elevation: 2,
   },
   image: {
     width: "100%",

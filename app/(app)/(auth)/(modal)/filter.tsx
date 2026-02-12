@@ -1,153 +1,300 @@
 import { Colors, Fonts } from "@/constants/theme";
-import { useState } from "react";
+import type { CategoryId } from "@/data/categories";
+import { categories } from "@/data/categories";
+import type { RedemptionWindow, SortOption } from "@/hooks/useFilterStore";
+import { useFilterStore } from "@/hooks/useFilterStore";
+import * as Haptics from "expo-haptics";
+import { useRouter } from "expo-router";
 import {
   ScrollView,
   StyleSheet,
-  Switch,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
 
-const cuisineFilters = [
-  "Pizza",
-  "Italian",
-  "Mediterranean",
-  "Falafel",
-  "Burger",
-  "Kebab",
-  "Asian",
-  "Chicken",
-  "BBQ",
-  "Pasta",
-  "American",
-];
+const FilterModal = () => {
+  const router = useRouter();
+  const {
+    selectedCategories,
+    selectedRedemptionWindows,
+    requirementsFilter,
+    sortBy,
+    toggleCategory,
+    toggleRedemptionWindow,
+    toggleRequirement,
+    setSortBy,
+    resetFilters,
+    applyFilters,
+    activeFilterCount,
+  } = useFilterStore();
 
-const priceFilters = ["€", "€€", "€€€", "€€€€"];
+  const handleApply = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    applyFilters();
+    router.dismiss();
+  };
 
-const sortOptions = [
-  "Recommended",
-  "Delivery price",
-  "Rating",
-  "Delivery time",
-];
+  const handleReset = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    resetFilters();
+  };
 
-const Page = () => {
-  const [selectedCuisines, setSelectedCuisines] = useState<string[]>([]);
-  const [selectedPrice, setSelectedPrice] = useState<string | null>(null);
-  const [woltPlusOnly, setWoltPlusOnly] = useState(false);
-  const [selectedSort, setSelectedSort] = useState("Recommended");
+  const handleToggleCategory = (category: CategoryId) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    toggleCategory(category);
+  };
 
-  const toggleCuisine = (cuisine: string) => {
-    setSelectedCuisines((prev) =>
-      prev.includes(cuisine)
-        ? prev.filter((c) => c !== cuisine)
-        : [...prev, cuisine]
-    );
+  const handleToggleWindow = (window: RedemptionWindow) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    toggleRedemptionWindow(window);
+  };
+
+  const handleToggleRequirement = (req: keyof typeof requirementsFilter) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    toggleRequirement(req);
+  };
+
+  const handleSetSort = (sort: SortOption) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    setSortBy(sort);
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Filter</Text>
+      <View style={styles.header}>
+        <Text style={styles.title}>Filter</Text>
+        {activeFilterCount > 0 && (
+          <TouchableOpacity onPress={handleReset} style={styles.resetButton}>
+            <Text style={styles.resetText}>Reset All</Text>
+          </TouchableOpacity>
+        )}
+      </View>
 
-      {/* Cuisine Filters */}
-      <View style={styles.filterSection}>
-        <View style={styles.chipContainer}>
-          {cuisineFilters.map((cuisine) => (
-            <TouchableOpacity
-              key={cuisine}
-              style={[
-                styles.chip,
-                selectedCuisines.includes(cuisine) && styles.chipSelected,
-              ]}
-              onPress={() => toggleCuisine(cuisine)}
-            >
-              <Text
+      <ScrollView
+        style={styles.scrollView}
+        showsVerticalScrollIndicator={false}
+      >
+        {/* Categories */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>CATEGORY</Text>
+          <View style={styles.chipContainer}>
+            {categories.map((cat) => (
+              <TouchableOpacity
+                key={cat.id}
                 style={[
-                  styles.chipText,
-                  selectedCuisines.includes(cuisine) && styles.chipTextSelected,
+                  styles.chip,
+                  selectedCategories.includes(cat.id as CategoryId) &&
+                    styles.chipSelected,
                 ]}
+                onPress={() => handleToggleCategory(cat.id as CategoryId)}
               >
-                {cuisine}
-              </Text>
-            </TouchableOpacity>
-          ))}
+                <Text
+                  style={[
+                    styles.chipText,
+                    selectedCategories.includes(cat.id as CategoryId) &&
+                      styles.chipTextSelected,
+                  ]}
+                >
+                  {cat.name}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
         </View>
-      </View>
 
-      {/* Price Filter */}
-      <View style={styles.filterSection}>
-        <Text style={styles.sectionTitle}>PRICE</Text>
-        <View style={styles.chipContainer}>
-          {priceFilters.map((price) => (
+        {/* Redemption Window */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>REDEMPTION WINDOW</Text>
+          <View style={styles.chipContainer}>
             <TouchableOpacity
-              key={price}
               style={[
                 styles.chip,
-                selectedPrice === price && styles.chipSelected,
+                selectedRedemptionWindows.includes("day") &&
+                  styles.chipSelected,
               ]}
-              onPress={() =>
-                setSelectedPrice(price === selectedPrice ? null : price)
-              }
+              onPress={() => handleToggleWindow("day")}
             >
               <Text
                 style={[
                   styles.chipText,
-                  selectedPrice === price && styles.chipTextSelected,
+                  selectedRedemptionWindows.includes("day") &&
+                    styles.chipTextSelected,
                 ]}
               >
-                {price}
+                Birthday Day Only
               </Text>
             </TouchableOpacity>
-          ))}
+            <TouchableOpacity
+              style={[
+                styles.chip,
+                selectedRedemptionWindows.includes("week") &&
+                  styles.chipSelected,
+              ]}
+              onPress={() => handleToggleWindow("week")}
+            >
+              <Text
+                style={[
+                  styles.chipText,
+                  selectedRedemptionWindows.includes("week") &&
+                    styles.chipTextSelected,
+                ]}
+              >
+                Birthday Week
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.chip,
+                selectedRedemptionWindows.includes("month") &&
+                  styles.chipSelected,
+              ]}
+              onPress={() => handleToggleWindow("month")}
+            >
+              <Text
+                style={[
+                  styles.chipText,
+                  selectedRedemptionWindows.includes("month") &&
+                    styles.chipTextSelected,
+                ]}
+              >
+                Entire Month
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
 
-      {/* Wolt+ Toggle */}
-      <View style={[styles.filterSection, styles.toggleSection]}>
-        <Text style={styles.toggleText}>Only show Wolt+ venues</Text>
-        <Switch
-          value={woltPlusOnly}
-          onValueChange={setWoltPlusOnly}
-          trackColor={{ false: Colors.light, true: Colors.primary }}
-          thumbColor="#fff"
-        />
-      </View>
-
-      {/* Sort By */}
-      <View style={styles.filterSection}>
-        <Text style={styles.sectionTitle}>SORT BY</Text>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          style={styles.chipContainer}
-        >
-          {sortOptions.map((option) => (
+        {/* Requirements */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>REQUIREMENTS</Text>
+          <View style={styles.chipContainer}>
             <TouchableOpacity
-              key={option}
               style={[
                 styles.chip,
-                selectedSort === option && styles.chipSelected,
+                requirementsFilter.easyOnly && styles.chipSelected,
               ]}
-              onPress={() => setSelectedSort(option)}
+              onPress={() => handleToggleRequirement("easyOnly")}
             >
               <Text
                 style={[
                   styles.chipText,
-                  selectedSort === option && styles.chipTextSelected,
+                  requirementsFilter.easyOnly && styles.chipTextSelected,
                 ]}
               >
-                {option}
+                Easy Only
               </Text>
             </TouchableOpacity>
-          ))}
-        </ScrollView>
-      </View>
+            <TouchableOpacity
+              style={[
+                styles.chip,
+                requirementsFilter.noAppRequired && styles.chipSelected,
+              ]}
+              onPress={() => handleToggleRequirement("noAppRequired")}
+            >
+              <Text
+                style={[
+                  styles.chipText,
+                  requirementsFilter.noAppRequired && styles.chipTextSelected,
+                ]}
+              >
+                No App Required
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.chip,
+                requirementsFilter.noEmailRequired && styles.chipSelected,
+              ]}
+              onPress={() => handleToggleRequirement("noEmailRequired")}
+            >
+              <Text
+                style={[
+                  styles.chipText,
+                  requirementsFilter.noEmailRequired && styles.chipTextSelected,
+                ]}
+              >
+                No Email Required
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* Sort By */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>SORT BY</Text>
+          <View style={styles.chipContainer}>
+            <TouchableOpacity
+              style={[
+                styles.chip,
+                sortBy === "popularity" && styles.chipSelected,
+              ]}
+              onPress={() => handleSetSort("popularity")}
+            >
+              <Text
+                style={[
+                  styles.chipText,
+                  sortBy === "popularity" && styles.chipTextSelected,
+                ]}
+              >
+                Most Popular
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.chip, sortBy === "name" && styles.chipSelected]}
+              onPress={() => handleSetSort("name")}
+            >
+              <Text
+                style={[
+                  styles.chipText,
+                  sortBy === "name" && styles.chipTextSelected,
+                ]}
+              >
+                A to Z
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.chip, sortBy === "recent" && styles.chipSelected]}
+              onPress={() => handleSetSort("recent")}
+            >
+              <Text
+                style={[
+                  styles.chipText,
+                  sortBy === "recent" && styles.chipTextSelected,
+                ]}
+              >
+                Recently Added
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[
+                styles.chip,
+                sortBy === "deadline" && styles.chipSelected,
+              ]}
+              onPress={() => handleSetSort("deadline")}
+            >
+              <Text
+                style={[
+                  styles.chipText,
+                  sortBy === "deadline" && styles.chipTextSelected,
+                ]}
+              >
+                Advance Signup
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        <View style={{ height: 100 }} />
+      </ScrollView>
 
       {/* Apply Button */}
-      <TouchableOpacity style={styles.applyButton}>
-        <Text style={styles.applyButtonText}>Apply</Text>
-      </TouchableOpacity>
+      <View style={styles.footer}>
+        <TouchableOpacity style={styles.applyButton} onPress={handleApply}>
+          <Text style={styles.applyButtonText}>
+            Apply{activeFilterCount > 0 ? ` (${activeFilterCount})` : ""}
+          </Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -155,21 +302,43 @@ const Page = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: Colors.background,
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     paddingHorizontal: 20,
+    paddingTop: 8,
+    paddingBottom: 16,
   },
   title: {
     fontFamily: Fonts.brandBold,
     fontSize: 32,
-    fontWeight: 900,
-    marginBottom: 24,
+    fontWeight: "900",
   },
-  filterSection: {
+  resetButton: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 8,
+    backgroundColor: Colors.light,
+  },
+  resetText: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: Colors.dark,
+  },
+  scrollView: {
+    flex: 1,
+  },
+  section: {
     marginBottom: 24,
+    paddingHorizontal: 20,
   },
   sectionTitle: {
     fontSize: 12,
     fontWeight: "600",
-    color: "#666",
+    color: Colors.muted,
     marginBottom: 12,
     letterSpacing: 0.5,
   },
@@ -182,38 +351,32 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 10,
     borderRadius: 20,
-    backgroundColor: Colors.primaryLight,
+    backgroundColor: Colors.light,
   },
   chipSelected: {
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.secondary,
   },
   chipText: {
-    fontSize: 12,
-    color: Colors.secondary,
+    fontSize: 14,
+    color: Colors.dark,
+    fontWeight: "500",
   },
   chipTextSelected: {
     color: "#fff",
     fontWeight: "600",
   },
-  toggleSection: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingVertical: 12,
+  footer: {
+    padding: 20,
+    paddingBottom: 32,
+    backgroundColor: Colors.background,
     borderTopWidth: 1,
-    borderBottomWidth: 1,
-    borderColor: "#f0f0f0",
-  },
-  toggleText: {
-    fontSize: 16,
-    color: "#000",
+    borderTopColor: Colors.light,
   },
   applyButton: {
-    backgroundColor: Colors.primary,
+    backgroundColor: Colors.secondary,
     paddingVertical: 16,
     borderRadius: 12,
     alignItems: "center",
-    marginTop: 20,
   },
   applyButtonText: {
     fontSize: 16,
@@ -222,4 +385,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Page;
+export default FilterModal;
