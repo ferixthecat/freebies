@@ -1,3 +1,4 @@
+import SearchBar from "@/components/SearchBar";
 import { Fonts } from "@/constants/theme";
 import { StyleSheet, Text, View } from "react-native";
 import Animated, {
@@ -20,6 +21,7 @@ const ExplorePage = () => {
       scrollOffset.value = event.contentOffset.y;
     },
   });
+
   return (
     <View style={styles.container}>
       <ExploreHeader title="Explore" scrollOffset={scrollOffset} />
@@ -29,6 +31,9 @@ const ExplorePage = () => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingTop: insets.top + HEADER_HEIGHT }}
       >
+        {/* Search Bar */}
+        <SearchBar />
+
         <Text style={styles.pageTitle}>Restaurants</Text>
         <CategoryList />
 

@@ -1,4 +1,5 @@
 import { Colors } from "@/constants/theme";
+import { useFilterStore } from "@/hooks/useFilterStore";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Link } from "expo-router";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
@@ -19,20 +20,21 @@ const SCROLL_THRESHOLD = 60;
 
 const ExploreHeader = ({ title, scrollOffset }: ExploreHeaderProps) => {
   const insets = useSafeAreaInsets();
+  const { activeFilterCount } = useFilterStore();
 
   const header1Style = useAnimatedStyle(() => {
     const opacity = interpolate(
       scrollOffset.value,
       [0, SCROLL_THRESHOLD * 0.6],
       [1, 0],
-      Extrapolation.CLAMP
+      Extrapolation.CLAMP,
     );
 
     const translateY = interpolate(
       scrollOffset.value,
       [0, SCROLL_THRESHOLD * 0.6],
       [0, -10],
-      Extrapolation.CLAMP
+      Extrapolation.CLAMP,
     );
 
     return {
@@ -46,14 +48,14 @@ const ExploreHeader = ({ title, scrollOffset }: ExploreHeaderProps) => {
       scrollOffset.value,
       [SCROLL_THRESHOLD * 0.3, SCROLL_THRESHOLD],
       [0, 1],
-      Extrapolation.CLAMP
+      Extrapolation.CLAMP,
     );
 
     const translateY = interpolate(
       scrollOffset.value,
       [SCROLL_THRESHOLD * 0.3, SCROLL_THRESHOLD],
       [-10, 0],
-      Extrapolation.CLAMP
+      Extrapolation.CLAMP,
     );
 
     return {
@@ -67,7 +69,7 @@ const ExploreHeader = ({ title, scrollOffset }: ExploreHeaderProps) => {
       scrollOffset.value,
       [0, SCROLL_THRESHOLD],
       [0, 1],
-      Extrapolation.CLAMP
+      Extrapolation.CLAMP,
     );
 
     return {
@@ -96,6 +98,11 @@ const ExploreHeader = ({ title, scrollOffset }: ExploreHeaderProps) => {
           <Link href={"/(app)/(auth)/(modal)/filter"} asChild>
             <TouchableOpacity style={styles.iconButton}>
               <Ionicons name="filter" size={20} />
+              {activeFilterCount > 0 && (
+                <View style={styles.badge}>
+                  <Text style={styles.badgeText}>{activeFilterCount}</Text>
+                </View>
+              )}
             </TouchableOpacity>
           </Link>
           <Link href={"/(app)/(auth)/(modal)/map"} asChild>
@@ -121,6 +128,11 @@ const ExploreHeader = ({ title, scrollOffset }: ExploreHeaderProps) => {
           <Link href={"/(app)/(auth)/(modal)/filter"} asChild>
             <TouchableOpacity style={styles.iconButton}>
               <Ionicons name="filter" size={20} />
+              {activeFilterCount > 0 && (
+                <View style={styles.badge}>
+                  <Text style={styles.badgeText}>{activeFilterCount}</Text>
+                </View>
+              )}
             </TouchableOpacity>
           </Link>
         </View>
@@ -183,6 +195,24 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: "center",
     justifyContent: "center",
+    position: "relative",
+  },
+  badge: {
+    position: "absolute",
+    top: -2,
+    right: -2,
+    backgroundColor: "#EF4444",
+    borderRadius: 8,
+    minWidth: 16,
+    height: 16,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 4,
+  },
+  badgeText: {
+    color: "#fff",
+    fontSize: 10,
+    fontWeight: "700",
   },
   centerContent: {
     flex: 1,
