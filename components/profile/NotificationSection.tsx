@@ -2,12 +2,7 @@ import { useNotificationSettings } from "@/hooks/useNotificationSettings";
 import SectionWrapper from "./SectionWrapper";
 import SettingRow from "./SettingRow";
 
-interface NotificationsSectionProps {
-  user: any;
-  setUser: (user: any) => void;
-}
-
-const NotificationsSection = ({ user, setUser }: NotificationsSectionProps) => {
+const NotificationsSection = () => {
   const {
     enabled,
     dayBefore,
@@ -17,7 +12,7 @@ const NotificationsSection = ({ user, setUser }: NotificationsSectionProps) => {
     toggleDayBefore,
     toggleWeekBefore,
     toggleAdvanceSignup,
-  } = useNotificationSettings({ user, setUser });
+  } = useNotificationSettings();
 
   return (
     <SectionWrapper title="Notifications">
