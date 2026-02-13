@@ -29,11 +29,14 @@ export interface CalendarData {
 }
 
 export const useCalendarData = (): CalendarData => {
-  const { user } = useUserStore();
+  const { profile } = useUserStore();
   const { savedFreebies } = useSavedFreebiesStore();
 
-  const birthday = user?.birthday ?? null;
-  const daysUntilBirthday = getDaysUntilBirthday(birthday);
+  const birthday =
+    profile?.birthday_month && profile?.birthday_day
+      ? { month: profile.birthday_month, day: profile.birthday_day }
+      : null;
+  const daysUntilBirthday = getDaysUntilBirthday(birthday ?? undefined);
 
   const savedList = useMemo(
     () => restaurants.filter((r) => savedFreebies.includes(r.id)),
