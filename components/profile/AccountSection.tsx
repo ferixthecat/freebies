@@ -1,23 +1,26 @@
+import useUserStore from "@/hooks/use-userstore";
 import * as Haptics from "expo-haptics";
 import { Alert } from "react-native";
 import SectionWrapper from "./SectionWrapper";
 import SettingRow from "./SettingRow";
 
-interface AccountSectionProps {
-  user: any;
-  setUser: (user: any) => void;
-}
+const AccountSection = () => {
+  const { user, profile, signOut } = useUserStore();
 
-const AccountSection = ({ user, setUser }: AccountSectionProps) => {
   const handleSignOut = () => {
     Alert.alert("Sign Out", "Are you sure you want to sign out?", [
       { text: "Cancel", style: "cancel" },
       {
         text: "Sign Out",
         style: "destructive",
-        onPress: () => {
-          setUser(null);
-          Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+        onPress: async () => {
+          try {
+            await signOut();
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+          } catch (error) {
+            console.error("Error signing out:", error);
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+          }
         },
       },
     ]);
@@ -28,12 +31,12 @@ const AccountSection = ({ user, setUser }: AccountSectionProps) => {
       <SettingRow
         icon="person"
         label="Email"
-        value={user?.email || "Not signed in"}
+        value={profile?.email || user?.email || "Not signed in"}
       />
       <SettingRow
         icon="location"
         label="Location"
-        value={user?.location || "Toronto, ON"}
+        value={profile?.location || "Toronto, ON"}
         onPress={() => {}}
         showChevron
       />

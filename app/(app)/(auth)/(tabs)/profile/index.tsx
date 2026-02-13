@@ -4,11 +4,9 @@ import BirthdaySection from "@/components/profile/BirthdaySection";
 import NotificationsSection from "@/components/profile/NotificationSection";
 import SavedFreebiesSection from "@/components/profile/SavedFreebiesSection";
 import { useSavedFreebiesStore } from "@/hooks/use-savedfreebies";
-import useUserStore from "@/hooks/use-userstore";
 import { ScrollView, StyleSheet, View } from "react-native";
 
 const ProfilePage = () => {
-  const { user, setUser } = useUserStore();
   const { savedCount, clearAll } = useSavedFreebiesStore();
 
   return (
@@ -16,10 +14,10 @@ const ProfilePage = () => {
       style={styles.container}
       contentInsetAdjustmentBehavior="automatic"
     >
-      <BirthdaySection user={user} setUser={setUser} />
-      <NotificationsSection user={user} setUser={setUser} />
+      <BirthdaySection />
+      <NotificationsSection />
       <SavedFreebiesSection savedCount={savedCount} clearAll={clearAll} />
-      <AccountSection user={user} setUser={setUser} />
+      <AccountSection />
       <AboutSection />
       <View style={{ height: 100 }} />
     </ScrollView>

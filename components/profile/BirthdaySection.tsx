@@ -1,31 +1,37 @@
 import { Colors } from "@/constants/theme";
-import {
-  birthdayToDate,
-  dateToBirthday,
-  formatBirthday,
-} from "@/utils/dateUtils";
+import useUserStore from "@/hooks/use-userstore";
+import { birthdayToDate, formatBirthday } from "@/utils/dateUtils";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import * as Haptics from "expo-haptics";
 import { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
 import SectionWrapper from "./SectionWrapper";
 import SettingRow from "./SettingRow";
 
-interface BirthdaySectionProps {
-  user: any;
-  setUser: (user: any) => void;
-}
-
-const BirthdaySection = ({ user, setUser }: BirthdaySectionProps) => {
+const BirthdaySection = () => {
+  const { profile, updateProfile, profileLoading } = useUserStore();
   const [showPicker, setShowPicker] = useState(false);
 
-  const handleDateChange = (_event: any, selectedDate?: Date) => {
+  const birthday =
+    profile?.birthday_month && profile?.birthday_day
+      ? { month: profile.birthday_month, day: profile.birthday_day }
+      : { month: 1, day: 1 };
+
+  const handleDateChange = async (_event: any, selectedDate?: Date) => {
     setShowPicker(false);
     if (!selectedDate) return;
 
-    setUser({ ...user, birthday: dateToBirthday(selectedDate) });
-    Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    try {
+      await updateProfile({
+        birthday_month: selectedDate.getMonth() + 1,
+        birthday_day: selectedDate.getDate(),
+      });
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+    } catch (error) {
+      console.error("Error updating birthday:", error);
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+    }
   };
 
   return (
@@ -33,12 +39,19 @@ const BirthdaySection = ({ user, setUser }: BirthdaySectionProps) => {
       <SettingRow
         icon="calendar"
         label="Your Birthday"
-        value={formatBirthday(user?.birthday)}
+        value={formatBirthday(birthday)}
         onPress={() => setShowPicker(true)}
         showChevron
       />
 
-      {user?.birthday && (
+      {profileLoading && (
+        <View style={styles.loadingBox}>
+          <ActivityIndicator size="small" color={Colors.secondary} />
+          <Text style={styles.loadingText}>Updating...</Text>
+        </View>
+      )}
+
+      {birthday && !profileLoading && (
         <View style={styles.infoBox}>
           <Ionicons
             name="information-circle"
@@ -53,7 +66,7 @@ const BirthdaySection = ({ user, setUser }: BirthdaySectionProps) => {
 
       {showPicker && (
         <DateTimePicker
-          value={birthdayToDate(user?.birthday)}
+          value={birthdayToDate(birthday)}
           mode="date"
           display="spinner"
           onChange={handleDateChange}
@@ -81,6 +94,21 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: Colors.secondary,
     lineHeight: 18,
+  },
+  loadingBox: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginHorizontal: 16,
+    marginTop: 4,
+    marginBottom: 8,
+    padding: 12,
+    backgroundColor: Colors.primaryLight,
+    borderRadius: 8,
+  },
+  loadingText: {
+    fontSize: 13,
+    color: Colors.secondary,
   },
 });
 
