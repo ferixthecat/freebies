@@ -35,7 +35,10 @@ export default function Index() {
       </View>
 
       <View style={styles.contentContainer}>
-        <Image source={require("@/assets/images")} style={styles.brandLogo} />
+        <Image
+          source={require("@/assets/images/logo.png")}
+          style={styles.brandLogo}
+        />
         <Animated.Text entering={FadeInDown} style={styles.tagline}>
           Never miss a birthday freebie
         </Animated.Text>
