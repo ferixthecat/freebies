@@ -84,17 +84,18 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   brandLogo: {
-    width: "100%",
-    height: 48,
+    width: "90%", // ← 80% → 90% (bigger)
+    height: 160, // ← 120 → 160 (much bigger)
     resizeMode: "contain",
-    marginBottom: 20,
+    marginBottom: 24, // ← Less space below logo
+    marginTop: 20,
   },
   tagline: {
-    fontSize: 32,
+    fontSize: 28, // ← 32 → 28 (smaller)
     fontFamily: Fonts.brandBlack,
     textAlign: "center",
-    marginBottom: 50,
-    lineHeight: 36,
+    marginBottom: 40, // ← 50 → 40 (tighter)
+    lineHeight: 32, // ← 36 → 32 (tighter line height)
   },
   buttonContainer: {
     gap: 12,

@@ -5,7 +5,7 @@ const RootNav = () => {
   const { user } = useUserStore();
   return (
     <Stack>
-      <Stack.Protected guard={user}>
+      <Stack.Protected guard={!!user}>
         <Stack.Screen name='(auth)' options={{ headerShown: false }}/>
       </Stack.Protected>
       <Stack.Protected guard={!user}>

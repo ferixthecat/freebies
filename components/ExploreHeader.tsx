@@ -105,11 +105,13 @@ const ExploreHeader = ({ title, scrollOffset }: ExploreHeaderProps) => {
               )}
             </TouchableOpacity>
           </Link>
-          <Link href={"/(app)/(auth)/(modal)/map"} asChild>
-            <TouchableOpacity style={styles.iconButton}>
-              <Ionicons name="map-outline" size={20} />
-            </TouchableOpacity>
-          </Link>
+          {/* TEMPORARILY DISABLED - Map requires dev client
+<Link href={"/(app)/(auth)/(modal)/map"} asChild>
+  <TouchableOpacity style={styles.iconButton}>
+    <Ionicons name="map-outline" size={20} />
+  </TouchableOpacity>
+</Link>
+*/}
         </View>
       </Animated.View>
 

@@ -6,6 +6,7 @@ import { useState } from "react";
 import {
   Alert,
   KeyboardAvoidingView,
+  Modal, // ← Add this import
   Platform,
   ScrollView,
   StyleSheet,
@@ -28,9 +29,6 @@ const EmailAuthButton = () => {
       return;
     }
 
-    {
-      /* Implement better password validation later */
-    }
     if (password.length < 8) {
       Alert.alert("Error", "Password must be at least 8 characters");
       return;
@@ -76,8 +74,8 @@ const EmailAuthButton = () => {
     }
   };
 
-  if (!showModal) {
-    return (
+  return (
+    <>
       <TouchableOpacity
         style={styles.emailButton}
         onPress={() => setShowModal(true)}
@@ -85,94 +83,100 @@ const EmailAuthButton = () => {
         <Ionicons name="mail-outline" size={18} color={"#000000"} />
         <Text style={styles.emailButtonText}>Continue with email</Text>
       </TouchableOpacity>
-    );
-  }
 
-  return (
-    <View style={styles.modalOverlay}>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : undefined}
-        style={styles.modalContainer}
+      {/* ← Changed from conditional render to Modal component */}
+      <Modal
+        visible={showModal}
+        animationType="fade"
+        transparent={true}
+        onRequestClose={() => setShowModal(false)}
       >
-        <ScrollView
-          contentContainerStyle={styles.modalContent}
-          keyboardShouldPersistTaps="handled"
-        >
-          {/* Header */}
-          <View style={styles.modalHeader}>
-            <Text style={styles.modalTitle}>
-              {isSignUp ? "Create Account" : "Sign In"}
-            </Text>
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={() => setShowModal(false)}
+        <View style={styles.modalOverlay}>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : undefined}
+            style={styles.modalContainer}
+          >
+            <ScrollView
+              contentContainerStyle={styles.modalContent}
+              keyboardShouldPersistTaps="handled"
             >
-              <Ionicons name="close" size={24} color={Colors.dark} />
-            </TouchableOpacity>
-          </View>
+              {/* Header */}
+              <View style={styles.modalHeader}>
+                <Text style={styles.modalTitle}>
+                  {isSignUp ? "Create Account" : "Sign In"}
+                </Text>
+                <TouchableOpacity
+                  style={styles.closeButton}
+                  onPress={() => setShowModal(false)}
+                >
+                  <Ionicons name="close" size={24} color={Colors.dark} />
+                </TouchableOpacity>
+              </View>
 
-          {/* Email */}
-          <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>Email</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="your@email.com"
-              value={email}
-              onChangeText={setEmail}
-              autoCapitalize="none"
-              keyboardType="email-address"
-              autoComplete="email"
-              textContentType="emailAddress"
-            />
-          </View>
+              {/* Email */}
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Email</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="your@email.com"
+                  value={email}
+                  onChangeText={setEmail}
+                  autoCapitalize="none"
+                  keyboardType="email-address"
+                  autoComplete="email"
+                  textContentType="emailAddress"
+                />
+              </View>
 
-          {/* Password Input */}
-          <View style={styles.inputContainer}>
-            <Text style={styles.inputLabel}>Password</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="••••••••"
-              value={password}
-              onChangeText={setPassword}
-              secureTextEntry
-              autoCapitalize="none"
-              autoComplete="password"
-              textContentType="password"
-            />
-          </View>
+              {/* Password Input */}
+              <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Password</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="••••••••"
+                  value={password}
+                  onChangeText={setPassword}
+                  secureTextEntry
+                  autoCapitalize="none"
+                  autoComplete="password"
+                  textContentType="password"
+                />
+              </View>
 
-          {/* Auth Button */}
-          <TouchableOpacity
-            style={[styles.authButton, loading && styles.buttonDisabled]}
-            onPress={handleEmailAuth}
-            disabled={loading}
-          >
-            <Text style={styles.authButtonText}>
-              {loading
-                ? "Processing..."
-                : isSignUp
-                  ? "Create Account"
-                  : "Sign In"}
-            </Text>
-          </TouchableOpacity>
+              {/* Auth Button */}
+              <TouchableOpacity
+                style={[styles.authButton, loading && styles.buttonDisabled]}
+                onPress={handleEmailAuth}
+                disabled={loading}
+              >
+                <Text style={styles.authButtonText}>
+                  {loading
+                    ? "Processing..."
+                    : isSignUp
+                      ? "Create Account"
+                      : "Sign In"}
+                </Text>
+              </TouchableOpacity>
 
-          {/* Toggle Sign Up/Sign In */}
-          <TouchableOpacity
-            style={styles.toggleButton}
-            onPress={() => setIsSignUp(!isSignUp)}
-          >
-            <Text style={styles.toggleText}>
-              {isSignUp
-                ? "Already have an account? "
-                : "Don't have an account? "}
-              <Text style={styles.toggleTextBold}>
-                {isSignUp ? "Create Account" : "Sign Up"}
-              </Text>
-            </Text>
-          </TouchableOpacity>
-        </ScrollView>
-      </KeyboardAvoidingView>
-    </View>
+              {/* Toggle Sign Up/Sign In */}
+              <TouchableOpacity
+                style={styles.toggleButton}
+                onPress={() => setIsSignUp(!isSignUp)}
+              >
+                <Text style={styles.toggleText}>
+                  {isSignUp
+                    ? "Already have an account? "
+                    : "Don't have an account? "}
+                  <Text style={styles.toggleTextBold}>
+                    {isSignUp ? "Sign In" : "Sign Up"}
+                  </Text>
+                </Text>
+              </TouchableOpacity>
+            </ScrollView>
+          </KeyboardAvoidingView>
+        </View>
+      </Modal>
+    </>
   );
 };
 
@@ -192,11 +196,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   modalOverlay: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
+    flex: 1,
     backgroundColor: "rgba(0,0,0,0.5)",
     justifyContent: "center",
     alignItems: "center",

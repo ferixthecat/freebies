@@ -13,6 +13,8 @@ const ProfilePage = () => {
     <ScrollView
       style={styles.container}
       contentInsetAdjustmentBehavior="automatic"
+      contentContainerStyle={styles.contentContainer}
+      showsVerticalScrollIndicator={false}
     >
       <BirthdaySection />
       <NotificationsSection />
@@ -28,6 +30,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#F2F2F7",
+  },
+  contentContainer: {
+    paddingTop: 20,
   },
 });
 

@@ -55,13 +55,6 @@
       ],
       "expo-font",
       [
-        "expo-maps",
-        {
-          "requestLocationPermission": true,
-          "locationPermission": "Allow $(PRODUCT_NAME) to use your location"
-        }
-      ],
-      [
         "expo-location",
         {
           "locationWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location"

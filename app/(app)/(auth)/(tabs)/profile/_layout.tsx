@@ -15,6 +15,9 @@ const Layout = () => {
             fontWeight: "900",
             color: "#000",
           },
+          headerStyle: {
+            backgroundColor: "transparent", // ← Add this
+          },
         }}
       />
     </Stack>
