@@ -5,6 +5,7 @@ import type { RedemptionWindow, SortOption } from "@/hooks/useFilterStore";
 import { useFilterStore } from "@/hooks/useFilterStore";
 import * as Haptics from "expo-haptics";
 import { useRouter } from "expo-router";
+import { useRef, useState } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -15,6 +16,9 @@ import {
 
 const FilterModal = () => {
   const router = useRouter();
+  const isClosing = useRef(false); // Guard against double-tap / concurrent dismiss
+  const [applying, setApplying] = useState(false);
+
   const {
     selectedCategories,
     selectedRedemptionWindows,
@@ -30,14 +34,24 @@ const FilterModal = () => {
   } = useFilterStore();
 
   const handleApply = () => {
+    if (isClosing.current) return;
+    isClosing.current = true;
+    setApplying(true);
+
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
     applyFilters();
-    router.dismiss();
+
+    requestAnimationFrame(() => {
+      router.dismiss();
+    });
   };
 
   const handleReset = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     resetFilters();
+    // Reset guard so apply works fresh after reset
+    isClosing.current = false;
+    setApplying(false);
   };
 
   const handleToggleCategory = (category: CategoryId) => {
@@ -107,60 +121,33 @@ const FilterModal = () => {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>REDEMPTION WINDOW</Text>
           <View style={styles.chipContainer}>
-            <TouchableOpacity
-              style={[
-                styles.chip,
-                selectedRedemptionWindows.includes("day") &&
-                  styles.chipSelected,
-              ]}
-              onPress={() => handleToggleWindow("day")}
-            >
-              <Text
+            {(
+              [
+                { key: "day", label: "Birthday Day Only" },
+                { key: "week", label: "Birthday Week" },
+                { key: "month", label: "Entire Month" },
+              ] as { key: RedemptionWindow; label: string }[]
+            ).map(({ key, label }) => (
+              <TouchableOpacity
+                key={key}
                 style={[
-                  styles.chipText,
-                  selectedRedemptionWindows.includes("day") &&
-                    styles.chipTextSelected,
+                  styles.chip,
+                  selectedRedemptionWindows.includes(key) &&
+                    styles.chipSelected,
                 ]}
+                onPress={() => handleToggleWindow(key)}
               >
-                Birthday Day Only
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.chip,
-                selectedRedemptionWindows.includes("week") &&
-                  styles.chipSelected,
-              ]}
-              onPress={() => handleToggleWindow("week")}
-            >
-              <Text
-                style={[
-                  styles.chipText,
-                  selectedRedemptionWindows.includes("week") &&
-                    styles.chipTextSelected,
-                ]}
-              >
-                Birthday Week
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.chip,
-                selectedRedemptionWindows.includes("month") &&
-                  styles.chipSelected,
-              ]}
-              onPress={() => handleToggleWindow("month")}
-            >
-              <Text
-                style={[
-                  styles.chipText,
-                  selectedRedemptionWindows.includes("month") &&
-                    styles.chipTextSelected,
-                ]}
-              >
-                Entire Month
-              </Text>
-            </TouchableOpacity>
+                <Text
+                  style={[
+                    styles.chipText,
+                    selectedRedemptionWindows.includes(key) &&
+                      styles.chipTextSelected,
+                  ]}
+                >
+                  {label}
+                </Text>
+              </TouchableOpacity>
+            ))}
           </View>
         </View>
 
@@ -168,54 +155,31 @@ const FilterModal = () => {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>REQUIREMENTS</Text>
           <View style={styles.chipContainer}>
-            <TouchableOpacity
-              style={[
-                styles.chip,
-                requirementsFilter.easyOnly && styles.chipSelected,
-              ]}
-              onPress={() => handleToggleRequirement("easyOnly")}
-            >
-              <Text
+            {(
+              [
+                { key: "easyOnly", label: "Easy Only" },
+                { key: "noAppRequired", label: "No App Required" },
+                { key: "noEmailRequired", label: "No Email Required" },
+              ] as { key: keyof typeof requirementsFilter; label: string }[]
+            ).map(({ key, label }) => (
+              <TouchableOpacity
+                key={key}
                 style={[
-                  styles.chipText,
-                  requirementsFilter.easyOnly && styles.chipTextSelected,
+                  styles.chip,
+                  requirementsFilter[key] && styles.chipSelected,
                 ]}
+                onPress={() => handleToggleRequirement(key)}
               >
-                Easy Only
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.chip,
-                requirementsFilter.noAppRequired && styles.chipSelected,
-              ]}
-              onPress={() => handleToggleRequirement("noAppRequired")}
-            >
-              <Text
-                style={[
-                  styles.chipText,
-                  requirementsFilter.noAppRequired && styles.chipTextSelected,
-                ]}
-              >
-                No App Required
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.chip,
-                requirementsFilter.noEmailRequired && styles.chipSelected,
-              ]}
-              onPress={() => handleToggleRequirement("noEmailRequired")}
-            >
-              <Text
-                style={[
-                  styles.chipText,
-                  requirementsFilter.noEmailRequired && styles.chipTextSelected,
-                ]}
-              >
-                No Email Required
-              </Text>
-            </TouchableOpacity>
+                <Text
+                  style={[
+                    styles.chipText,
+                    requirementsFilter[key] && styles.chipTextSelected,
+                  ]}
+                >
+                  {label}
+                </Text>
+              </TouchableOpacity>
+            ))}
           </View>
         </View>
 
@@ -223,64 +187,29 @@ const FilterModal = () => {
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>SORT BY</Text>
           <View style={styles.chipContainer}>
-            <TouchableOpacity
-              style={[
-                styles.chip,
-                sortBy === "popularity" && styles.chipSelected,
-              ]}
-              onPress={() => handleSetSort("popularity")}
-            >
-              <Text
-                style={[
-                  styles.chipText,
-                  sortBy === "popularity" && styles.chipTextSelected,
-                ]}
+            {(
+              [
+                { key: "popularity", label: "Most Popular" },
+                { key: "name", label: "A to Z" },
+                { key: "recent", label: "Recently Added" },
+                { key: "deadline", label: "Advance Signup" },
+              ] as { key: SortOption; label: string }[]
+            ).map(({ key, label }) => (
+              <TouchableOpacity
+                key={key}
+                style={[styles.chip, sortBy === key && styles.chipSelected]}
+                onPress={() => handleSetSort(key)}
               >
-                Most Popular
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.chip, sortBy === "name" && styles.chipSelected]}
-              onPress={() => handleSetSort("name")}
-            >
-              <Text
-                style={[
-                  styles.chipText,
-                  sortBy === "name" && styles.chipTextSelected,
-                ]}
-              >
-                A to Z
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[styles.chip, sortBy === "recent" && styles.chipSelected]}
-              onPress={() => handleSetSort("recent")}
-            >
-              <Text
-                style={[
-                  styles.chipText,
-                  sortBy === "recent" && styles.chipTextSelected,
-                ]}
-              >
-                Recently Added
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.chip,
-                sortBy === "deadline" && styles.chipSelected,
-              ]}
-              onPress={() => handleSetSort("deadline")}
-            >
-              <Text
-                style={[
-                  styles.chipText,
-                  sortBy === "deadline" && styles.chipTextSelected,
-                ]}
-              >
-                Advance Signup
-              </Text>
-            </TouchableOpacity>
+                <Text
+                  style={[
+                    styles.chipText,
+                    sortBy === key && styles.chipTextSelected,
+                  ]}
+                >
+                  {label}
+                </Text>
+              </TouchableOpacity>
+            ))}
           </View>
         </View>
 
@@ -289,7 +218,11 @@ const FilterModal = () => {
 
       {/* Apply Button */}
       <View style={styles.footer}>
-        <TouchableOpacity style={styles.applyButton} onPress={handleApply}>
+        <TouchableOpacity
+          style={styles.applyButton}
+          onPress={handleApply}
+          disabled={applying}
+        >
           <Text style={styles.applyButtonText}>
             Apply{activeFilterCount > 0 ? ` (${activeFilterCount})` : ""}
           </Text>
@@ -309,7 +242,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 20,
-    paddingTop: 8,
+    paddingTop: 24, // enough room below the sheet grabber
     paddingBottom: 16,
   },
   title: {

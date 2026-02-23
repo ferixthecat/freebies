@@ -3,9 +3,9 @@ import FreebieGroup from "@/components/calendar/FreebieGroup";
 import NoBirthdayState from "@/components/calendar/NoBirthdayState";
 import NoSavedFreebiesState from "@/components/calendar/NoSavedFreebiesState";
 import SignupActionBanner from "@/components/calendar/SignupActionBanner";
-import { Colors } from "@/constants/theme";
+import { Colors, Fonts } from "@/constants/theme";
 import { useCalendarData } from "@/hooks/useCalendarData";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const CalendarPage = () => {
@@ -24,49 +24,68 @@ const CalendarPage = () => {
   const totalSaved =
     dayFreebies.length + weekFreebies.length + monthFreebies.length;
 
-  if (!hasBirthday) return <NoBirthdayState />;
-  if (totalSaved === 0) return <NoSavedFreebiesState />;
+  const showEmptyState = !hasBirthday || totalSaved === 0;
 
   return (
-    <ScrollView
-      style={styles.container}
-      contentContainerStyle={[
-        styles.content,
-        { paddingTop: insets.top + 60 }, // account for large header
-      ]}
-      showsVerticalScrollIndicator={false}
-    >
-      {/* Birthday Countdown */}
-      <BirthdayCountdown daysUntil={daysUntilBirthday!} birthday={birthday!} />
+    <View style={[styles.container, { paddingTop: insets.top }]}>
+      {/* Header always visible regardless of state */}
+      <View style={styles.header}>
+        <Text style={styles.headerTitle}>Calendar</Text>
+      </View>
 
-      {/* Advance Signup Alerts */}
-      <SignupActionBanner signupNow={signupNow} signupSoon={signupSoon} />
+      {/* No birthday set */}
+      {!hasBirthday && (
+        <View style={styles.emptyWrapper}>
+          <NoBirthdayState />
+        </View>
+      )}
 
-      {/* Freebie Groups by Redemption Window */}
-      <FreebieGroup
-        title="On Your Birthday"
-        icon="calendar"
-        freebies={dayFreebies}
-        accentColor="#EF4444"
-        startExpanded
-      />
-      <FreebieGroup
-        title="Birthday Week"
-        icon="calendar-outline"
-        freebies={weekFreebies}
-        accentColor={Colors.secondary}
-        startExpanded
-      />
-      <FreebieGroup
-        title="Entire Birth Month"
-        icon="calendar-clear-outline"
-        freebies={monthFreebies}
-        accentColor="#10B981"
-        startExpanded={false}
-      />
+      {/* Birthday set but nothing saved */}
+      {hasBirthday && totalSaved === 0 && (
+        <View style={styles.emptyWrapper}>
+          <NoSavedFreebiesState />
+        </View>
+      )}
 
-      <View style={{ height: 100 }} />
-    </ScrollView>
+      {/* Main content */}
+      {!showEmptyState && (
+        <ScrollView
+          style={styles.scroll}
+          contentContainerStyle={styles.content}
+          showsVerticalScrollIndicator={false}
+        >
+          <BirthdayCountdown
+            daysUntil={daysUntilBirthday!}
+            birthday={birthday!}
+          />
+          <SignupActionBanner signupNow={signupNow} signupSoon={signupSoon} />
+
+          <FreebieGroup
+            title="On Your Birthday"
+            icon="calendar"
+            freebies={dayFreebies}
+            accentColor="#EF4444"
+            startExpanded
+          />
+          <FreebieGroup
+            title="Birthday Week"
+            icon="calendar-outline"
+            freebies={weekFreebies}
+            accentColor={Colors.secondary}
+            startExpanded
+          />
+          <FreebieGroup
+            title="Entire Birth Month"
+            icon="calendar-clear-outline"
+            freebies={monthFreebies}
+            accentColor="#10B981"
+            startExpanded={false}
+          />
+
+          <View style={{ height: 100 }} />
+        </ScrollView>
+      )}
+    </View>
   );
 };
 
@@ -74,6 +93,24 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#F2F2F7",
+  },
+  header: {
+    paddingHorizontal: 16,
+    paddingTop: 12,
+    paddingBottom: 12,
+    backgroundColor: Colors.background,
+  },
+  headerTitle: {
+    fontFamily: Fonts.brandBlack,
+    fontSize: 32,
+    color: "#000",
+  },
+  emptyWrapper: {
+    flex: 1,
+    backgroundColor: "#fff",
+  },
+  scroll: {
+    flex: 1,
   },
   content: {
     paddingBottom: 20,
