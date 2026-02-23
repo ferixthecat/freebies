@@ -82,7 +82,7 @@ const SavedScreen = () => {
 
   if (isLoading) {
     return (
-      <View style={styles.loadingContainer}>
+      <View style={[styles.loadingContainer, { paddingTop: insets.top }]}>
         <ActivityIndicator size="large" color={Colors.secondary} />
       </View>
     );
@@ -93,6 +93,7 @@ const SavedScreen = () => {
       key={restaurant.id}
       entering={FadeInDown.delay(index * 50)}
       exiting={FadeOutLeft}
+      style={styles.cardWrapper}
     >
       <Link href={`/(modal)/(restaurant)/${restaurant.id}`} asChild>
         <TouchableOpacity style={styles.card}>
@@ -139,16 +140,15 @@ const SavedScreen = () => {
               )}
             </View>
           </View>
-
-          {/* Unsave Button */}
-          <TouchableOpacity
-            style={styles.unsaveButton}
-            onPress={() => handleUnsave(restaurant.id)}
-          >
-            <Ionicons name="bookmark" size={20} color={Colors.secondary} />
-          </TouchableOpacity>
         </TouchableOpacity>
       </Link>
+      {/* Unsave Button */}
+      <TouchableOpacity
+        style={styles.unsaveButton}
+        onPress={() => handleUnsave(restaurant.id)}
+      >
+        <Ionicons name="bookmark" size={20} color={Colors.secondary} />
+      </TouchableOpacity>
     </Animated.View>
   );
 
@@ -387,7 +387,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: 16,
-    paddingVertical: 20,
+    paddingTop: 12,
+    paddingBottom: 12,
   },
   headerLeft: {
     flexDirection: "row",
@@ -436,6 +437,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 40,
+    paddingBottom: 80,
   },
   emptyIconContainer: {
     width: 160,
@@ -543,18 +545,25 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     color: Colors.secondary,
   },
+  cardWrapper: {
+    position: "relative",
+    marginBottom: 12,
+    borderRadius: 12,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+  },
 
   // Card
   card: {
     flexDirection: "row",
     backgroundColor: "#fff",
     borderRadius: 12,
-    marginBottom: 12,
     overflow: "hidden",
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: Colors.light,
-    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-    elevation: 2,
   },
   cardImage: {
     width: 100,
@@ -563,6 +572,7 @@ const styles = StyleSheet.create({
   cardContent: {
     flex: 1,
     padding: 12,
+    paddingRight: 48,
     justifyContent: "space-between",
   },
   cardHeader: {
@@ -616,7 +626,11 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(255, 255, 255, 0.95)",
     justifyContent: "center",
     alignItems: "center",
-    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.15,
+    shadowRadius: 2,
+    elevation: 3,
   },
 });
 

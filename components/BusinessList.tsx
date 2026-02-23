@@ -2,6 +2,7 @@ import { categoryImages } from "@/constants/images";
 import { Colors } from "@/constants/theme";
 import { useFilteredRestaurants } from "@/hooks/useFilteredRestaurants";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { LinearGradient } from "expo-linear-gradient";
 import { Link } from "expo-router";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
@@ -32,27 +33,39 @@ const BusinessList = () => {
       )}
 
       {restaurants.map((item) => (
-        <View key={item.id}>
-          <Link href={`(modal)/(restaurant)/${item.id}`} asChild>
-            <TouchableOpacity style={styles.card}>
-              <Image
-                source={categoryImages[item.category]}
-                style={styles.image}
-              />
-              <View style={styles.info}>
-                <Text style={styles.name}>{item.name}</Text>
-                <Text style={styles.description} numberOfLines={2}>
-                  {item.description}
-                </Text>
-              </View>
-
-              <View style={styles.metadata}>
-                <Ionicons name="gift-outline" size={16} color={"#666"} />
-                <Text style={styles.metadataText}>
-                  {item.requirements.requiresApp ? "Rewards App" : "No App"}
-                </Text>
-                <Text style={styles.dot}>•</Text>
-                <Text style={styles.metadataText}>
+        <Link
+          key={item.id}
+          href={`/(app)/(auth)/(modal)/(restaurant)/${item.id}`}
+          asChild
+        >
+          <TouchableOpacity style={styles.card}>
+            <Image
+              source={categoryImages[item.category]}
+              style={styles.image}
+            />
+            <LinearGradient
+              colors={["transparent", "rgba(0,0,0,0.45)"]}
+              style={styles.imageGradient}
+            />
+            <View style={styles.imageBadges}>
+              {item.requirements.requiresApp ? (
+                <View style={styles.badge}>
+                  <Ionicons
+                    name="phone-portrait-outline"
+                    size={11}
+                    color="#fff"
+                  />
+                  <Text style={styles.badgeText}>App Required</Text>
+                </View>
+              ) : (
+                <View style={[styles.badge, styles.badgeEasy]}>
+                  <Ionicons name="checkmark-circle" size={11} color="#fff" />
+                  <Text style={styles.badgeText}>No App</Text>
+                </View>
+              )}
+              <View style={[styles.badge, styles.badgeWindow]}>
+                <Ionicons name="calendar-outline" size={11} color="#fff" />
+                <Text style={styles.badgeText}>
                   {item.redemptionWindow === "day"
                     ? "Birthday day"
                     : item.redemptionWindow === "week"
@@ -60,9 +73,36 @@ const BusinessList = () => {
                       : "Entire month"}
                 </Text>
               </View>
-            </TouchableOpacity>
-          </Link>
-        </View>
+            </View>
+
+            {/* Content below image — seamless, no border */}
+            <View style={styles.content}>
+              <View style={styles.contentRow}>
+                <View style={styles.contentLeft}>
+                  <Text style={styles.name}>{item.name}</Text>
+                  <Text style={styles.description} numberOfLines={2}>
+                    {item.description}
+                  </Text>
+                </View>
+                {/* Offer pill */}
+                <View style={styles.offerPill}>
+                  <Ionicons
+                    name="gift-outline"
+                    size={14}
+                    color={Colors.secondary}
+                  />
+                </View>
+              </View>
+
+              {/* Offer title */}
+              <View style={styles.offerRow}>
+                <Text style={styles.offerTitle} numberOfLines={1}>
+                  🎁 {item.offer.title}
+                </Text>
+              </View>
+            </View>
+          </TouchableOpacity>
+        </Link>
       ))}
     </>
   );
@@ -96,46 +136,113 @@ const styles = StyleSheet.create({
     textAlign: "center",
     lineHeight: 20,
   },
+
+  // Card — no border, soft shadow only
   card: {
-    margin: 16,
-    borderRadius: 12,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: Colors.light,
+    marginHorizontal: 16,
+    marginBottom: 20,
+    borderRadius: 18,
+    backgroundColor: "#fff",
     overflow: "hidden",
-    boxShadow: "0px 4px 2px -2px rgba(0, 0, 0, 0.2)",
-    elevation: 2,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 12,
+    elevation: 4,
   },
+
+  // Taller image, full bleed
   image: {
     width: "100%",
-    height: 180,
+    height: 200,
   },
-  info: {
-    padding: 12,
+
+  // Gradient sits on top of image
+  imageGradient: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 100, // start fading halfway down
+    height: 100,
   },
-  name: {
-    fontSize: 16,
-    fontWeight: "600",
-    marginBottom: 4,
+
+  // Badges float over bottom of image
+  imageBadges: {
+    position: "absolute",
+    top: 12,
+    left: 12,
+    flexDirection: "row",
+    gap: 6,
   },
-  description: {
-    fontSize: 14,
-    color: "#666",
-  },
-  metadata: {
-    borderTopColor: Colors.light,
-    borderTopWidth: StyleSheet.hairlineWidth,
+  badge: {
     flexDirection: "row",
     alignItems: "center",
     gap: 4,
-    padding: 10,
+    backgroundColor: "rgba(0,0,0,0.45)",
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 20,
   },
-  metadataText: {
-    fontSize: 14,
-    color: "#666",
+  badgeEasy: {
+    backgroundColor: "rgba(16,185,129,0.75)", // green tint for easy
   },
-  dot: {
-    color: "#999",
+  badgeWindow: {
+    backgroundColor: "rgba(0,148,221,0.75)", // brand blue tint
+  },
+  badgeText: {
+    fontSize: 11,
+    color: "#fff",
+    fontWeight: "600",
+  },
+
+  // Content area — pure white, no border, just padding
+  content: {
+    paddingHorizontal: 16,
+    paddingTop: 14,
+    paddingBottom: 16,
+  },
+  contentRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    marginBottom: 8,
+  },
+  contentLeft: {
+    flex: 1,
+    marginRight: 12,
+  },
+  name: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: Colors.dark,
+    marginBottom: 3,
+    letterSpacing: -0.3,
+  },
+  description: {
     fontSize: 13,
+    color: Colors.muted,
+    lineHeight: 18,
+  },
+  offerPill: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: Colors.primaryLight,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  // Offer strip at bottom
+  offerRow: {
+    backgroundColor: Colors.primaryLight,
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 7,
+  },
+  offerTitle: {
+    fontSize: 13,
+    fontWeight: "600",
+    color: Colors.secondary,
   },
 });
 

@@ -11,13 +11,24 @@ interface FreebieTimelineRowProps {
 }
 
 const FreebieTimelineRow = ({ freebie }: FreebieTimelineRowProps) => {
-  const { isClaimed, claimFreebie, unclaimFreebie } = useClaimedFreebiesStore();
-  const claimed = isClaimed(freebie.id);
+  const claimedFreebies = useClaimedFreebiesStore(
+    (state) => state.claimedFreebies,
+  );
+  const claimFreebie = useClaimedFreebiesStore((state) => state.claimFreebie);
+  const unclaimFreebie = useClaimedFreebiesStore(
+    (state) => state.unclaimFreebie,
+  );
+
+  const claimKey = `${freebie.id}_${new Date().getFullYear()}`;
+  const claimed = claimedFreebies.includes(claimKey);
 
   const handleToggleClaimed = () => {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-    const action = claimed ? unclaimFreebie : claimFreebie;
-    action(freebie.id);
+    if (claimed) {
+      unclaimFreebie(freebie.id);
+    } else {
+      claimFreebie(freebie.id);
+    }
   };
 
   return (

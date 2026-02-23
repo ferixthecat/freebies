@@ -30,6 +30,9 @@ export const useClaimedFreebiesStore = create<ClaimedFreebiesStore>()(
         const key = claimKey(freebieId);
         const year = new Date().getFullYear();
 
+        // Only add if not already claimed
+        if (get().claimedFreebies.includes(key)) return;
+
         // Optimistic update
         set((state) => ({
           claimedFreebies: [...state.claimedFreebies, key],
@@ -54,6 +57,9 @@ export const useClaimedFreebiesStore = create<ClaimedFreebiesStore>()(
           }
         } catch (error) {
           console.error("Error claiming in Supabase:", error);
+          set((state) => ({
+            claimedFreebies: state.claimedFreebies.filter((id) => id !== key),
+          }));
         }
       },
 
@@ -83,6 +89,9 @@ export const useClaimedFreebiesStore = create<ClaimedFreebiesStore>()(
           if (error) throw error;
         } catch (error) {
           console.error("Error unclaiming in Supabase:", error);
+          set((state) => ({
+            claimedFreebies: [...state.claimedFreebies, key],
+          }));
         }
       },
 

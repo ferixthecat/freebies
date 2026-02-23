@@ -22,11 +22,16 @@ const FreebieGroup = ({
   startExpanded = true,
 }: FreebieGroupProps) => {
   const [expanded, setExpanded] = useState(startExpanded);
-  const { isClaimed } = useClaimedFreebiesStore();
+  const claimedFreebies = useClaimedFreebiesStore(
+    (state) => state.claimedFreebies,
+  );
 
   if (freebies.length === 0) return null;
 
-  const claimedCount = freebies.filter((f) => isClaimed(f.id)).length;
+  const currentYear = new Date().getFullYear();
+  const claimedCount = freebies.filter((f) =>
+    claimedFreebies.includes(`${f.id}_${currentYear}`),
+  ).length;
   const allClaimed = claimedCount === freebies.length;
 
   return (
