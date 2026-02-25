@@ -33,6 +33,11 @@
           ],
           "category": ["BROWSABLE", "DEFAULT"]
         }
+      ],
+      "permissions": [
+        "android.permission.POST_NOTIFICATIONS",
+        "android.permission.RECEIVE_BOOT_COMPLETED",
+        "android.permission.VIBRATE"
       ]
     },
     "web": {
@@ -62,7 +67,15 @@
       ],
       "@react-native-community/datetimepicker",
       "expo-secure-store",
-      "expo-apple-authentication"
+      "expo-apple-authentication",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/notification-icon.png",
+          "color": "#0094DD",
+          "defaultChannel": "birthday-freebies"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,
