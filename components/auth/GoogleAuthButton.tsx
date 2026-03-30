@@ -38,18 +38,26 @@ const GoogleAuthButton = () => {
         );
 
         if (result.type === "success") {
-          const { url } = result;
+          const url = result.url;
+          const hash = url.split("#")[1];
 
-          // Extract session from URL
-          const params = new URL(url).searchParams;
-          const accessToken = params.get("access_token");
-          const refreshToken = params.get("refresh_token");
+          if (hash) {
+            const params = new URLSearchParams(hash);
+            const accessToken = params.get("access_token");
+            const refreshToken = params.get("refresh_token");
 
-          if (accessToken && refreshToken) {
-            await supabase.auth.setSession({
-              access_token: accessToken,
-              refresh_token: refreshToken,
-            });
+            if (accessToken && refreshToken) {
+              const { error: sessionError } = await supabase.auth.setSession({
+                access_token: accessToken,
+                refresh_token: refreshToken,
+              });
+              if (sessionError) throw sessionError;
+              Haptics.notificationAsync(
+                Haptics.NotificationFeedbackType.Success,
+              );
+            } else {
+              throw new Error("No tokens found in redirect URL");
+            }
           }
         }
       }

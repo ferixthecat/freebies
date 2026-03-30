@@ -29,7 +29,7 @@ const useUserStore = create<UserState>()(
     (set, get) => ({
       user: null,
       profile: null,
-      loading: true,
+      loading: false,
       profileLoading: false,
 
       setUser: (user: User | null) => {
@@ -38,7 +38,12 @@ const useUserStore = create<UserState>()(
           // Fetch profile when user is set
           get().refreshProfile();
         } else {
-          set({ profile: null });
+          set({
+            user: null,
+            profile: null,
+            loading: false,
+            profileLoading: false,
+          });
         }
       },
 
@@ -95,7 +100,12 @@ const useUserStore = create<UserState>()(
       signOut: async () => {
         try {
           await supabase.auth.signOut();
-          set({ user: null, profile: null });
+          set({
+            user: null,
+            profile: null,
+            loading: false,
+            profileLoading: false,
+          });
         } catch (error) {
           console.error("Error signing out:", error);
           throw error;
@@ -107,7 +117,6 @@ const useUserStore = create<UserState>()(
       storage: createJSONStorage(() => zustandStorage),
       // Only persist user and profile, not loading states
       partialize: (state) => ({
-        user: state.user,
         profile: state.profile,
       }),
     },
