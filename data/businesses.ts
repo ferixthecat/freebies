@@ -1636,52 +1636,6 @@ export const restaurants: Restaurant[] = [
   },
 
   {
-    id: "chungchun-birthday",
-    name: "Chungchun Rice Hot Dog",
-    description: "Free corn dog on your birthday through their app",
-    category: "food",
-    types: ["korean", "fast-food"],
-
-    offer: {
-      title: "Free Corn Dog",
-      description: "One complimentary Korean corn dog",
-      valueRange: {
-        min: 6.0,
-        max: 8.0,
-      },
-    },
-
-    requirements: {
-      requiresApp: true,
-      requiresEmail: true,
-      requiresID: false,
-      advanceSignupDays: 0,
-    },
-
-    redemptionWindow: "month",
-    hasMultipleLocations: true,
-
-    instructions: [
-      "Download Chungchun app",
-      "Create account and add birthday",
-      "Receive birthday reward in app",
-      "Visit Chungchun during birthday month",
-      "Scan app to redeem free corn dog",
-    ],
-
-    restrictions: [
-      "Valid during birthday month",
-      "One corn dog per person per year",
-      "Available at participating locations",
-    ],
-
-    isActive: true,
-    verified: true,
-    lastVerified: new Date("2025-01-20"),
-    popularity: 73,
-  },
-
-  {
     id: "barburrito-birthday",
     name: "BarBurrito",
     description: "Free churro on your birthday through their rewards program",
@@ -1975,9 +1929,9 @@ export const restaurants: Restaurant[] = [
     },
 
     requirements: {
-      requiresApp: false,
+      requiresApp: true,
       requiresEmail: false,
-      requiresID: true,
+      requiresID: false,
       advanceSignupDays: 0,
     },
 
