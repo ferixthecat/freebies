@@ -1,4 +1,5 @@
 import BirthdayCountdown from "@/components/calendar/BirthdayCountdown";
+import ClaimProgressCard from "@/components/calendar/ClaimProgressCard";
 import FreebieGroup from "@/components/calendar/FreebieGroup";
 import NoBirthdayState from "@/components/calendar/NoBirthdayState";
 import NoSavedFreebiesState from "@/components/calendar/NoSavedFreebiesState";
@@ -19,11 +20,12 @@ const CalendarPage = () => {
     monthFreebies,
     signupNow,
     signupSoon,
+    claimableToday,
   } = useCalendarData();
 
   const totalSaved =
     dayFreebies.length + weekFreebies.length + monthFreebies.length;
-
+  const allFreebies = [...dayFreebies, ...weekFreebies, ...monthFreebies];
   const showEmptyState = !hasBirthday || totalSaved === 0;
 
   return (
@@ -58,6 +60,13 @@ const CalendarPage = () => {
             daysUntil={daysUntilBirthday!}
             birthday={birthday!}
           />
+
+          <ClaimProgressCard
+            allFreebies={allFreebies}
+            daysUntil={daysUntilBirthday!}
+            claimableToday={claimableToday}
+          />
+
           <SignupActionBanner signupNow={signupNow} signupSoon={signupSoon} />
 
           <FreebieGroup

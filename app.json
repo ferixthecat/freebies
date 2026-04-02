@@ -31,7 +31,10 @@
               "scheme": "freebie"
             }
           ],
-          "category": ["BROWSABLE", "DEFAULT"]
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
         }
       ],
       "permissions": [
@@ -75,7 +78,8 @@
           "color": "#0094DD",
           "defaultChannel": "birthday-freebies"
         }
-      ]
+      ],
+      "expo-maps"
     ],
     "experiments": {
       "typedRoutes": true,

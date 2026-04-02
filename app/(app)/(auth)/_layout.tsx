@@ -16,14 +16,14 @@ const Layout = () => {
           ...Transition.Presets.DraggableCard,
         }}
       />
-      {/* TEMPORARILY DISABLED - Requires dev client
-  <Stack.Screen
-    name="(modal)/map"
-    options={{
-      ...Transition.Presets.SharedAppleMusic,
-    }}
-  />
-  */}
+
+      <Stack.Screen
+        name="(modal)/map"
+        options={{
+          ...Transition.Presets.SharedAppleMusic,
+        }}
+      />
+
       <Stack.Screen
         name="(modal)/location"
         options={{
