@@ -1,4 +1,5 @@
 import { Colors } from "@/constants/theme";
+import useUserStore from "@/hooks/use-userstore";
 import { useFilterStore } from "@/hooks/useFilterStore";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Link } from "expo-router";
@@ -21,6 +22,10 @@ const SCROLL_THRESHOLD = 60;
 const ExploreHeader = ({ title, scrollOffset }: ExploreHeaderProps) => {
   const insets = useSafeAreaInsets();
   const { activeFilterCount } = useFilterStore();
+  const { profile } = useUserStore();
+
+  // Fall back to "Toronto" if no location saved yet
+  const locationLabel = profile?.location ?? "Toronto";
 
   const header1Style = useAnimatedStyle(() => {
     const opacity = interpolate(
@@ -29,18 +34,13 @@ const ExploreHeader = ({ title, scrollOffset }: ExploreHeaderProps) => {
       [1, 0],
       Extrapolation.CLAMP,
     );
-
     const translateY = interpolate(
       scrollOffset.value,
       [0, SCROLL_THRESHOLD * 0.6],
       [0, -10],
       Extrapolation.CLAMP,
     );
-
-    return {
-      opacity,
-      transform: [{ translateY }],
-    };
+    return { opacity, transform: [{ translateY }] };
   });
 
   const header2Style = useAnimatedStyle(() => {
@@ -50,18 +50,13 @@ const ExploreHeader = ({ title, scrollOffset }: ExploreHeaderProps) => {
       [0, 1],
       Extrapolation.CLAMP,
     );
-
     const translateY = interpolate(
       scrollOffset.value,
       [SCROLL_THRESHOLD * 0.3, SCROLL_THRESHOLD],
       [-10, 0],
       Extrapolation.CLAMP,
     );
-
-    return {
-      opacity,
-      transform: [{ translateY }],
-    };
+    return { opacity, transform: [{ translateY }] };
   });
 
   const shadowStyle = useAnimatedStyle(() => {
@@ -71,7 +66,6 @@ const ExploreHeader = ({ title, scrollOffset }: ExploreHeaderProps) => {
       [0, 1],
       Extrapolation.CLAMP,
     );
-
     return {
       shadowOpacity: opacity * 0.1,
       elevation: opacity * 4,
@@ -82,14 +76,14 @@ const ExploreHeader = ({ title, scrollOffset }: ExploreHeaderProps) => {
     <Animated.View
       style={[styles.headerContainer, shadowStyle, { paddingTop: insets.top }]}
     >
-      {/* Header 1 */}
+      {/* Header 1 — large, visible when at top */}
       <Animated.View style={[styles.header1, header1Style]}>
         <Link href={"/(app)/(auth)/(modal)/location"} asChild>
           <TouchableOpacity style={styles.locationButton}>
             <View style={styles.locationButtonIcon}>
               <Ionicons name="business-outline" size={16} />
             </View>
-            <Text style={styles.locationText}>Toronto</Text>
+            <Text style={styles.locationText}>{locationLabel}</Text>
             <Ionicons name="chevron-down" size={16} />
           </TouchableOpacity>
         </Link>
@@ -105,23 +99,21 @@ const ExploreHeader = ({ title, scrollOffset }: ExploreHeaderProps) => {
               )}
             </TouchableOpacity>
           </Link>
-          {/* TEMPORARILY DISABLED - Map requires dev client
-<Link href={"/(app)/(auth)/(modal)/map"} asChild>
-  <TouchableOpacity style={styles.iconButton}>
-    <Ionicons name="map-outline" size={20} />
-  </TouchableOpacity>
-</Link>
-*/}
+          <Link href={"/(app)/(auth)/(modal)/map"} asChild>
+            <TouchableOpacity style={styles.iconButton}>
+              <Ionicons name="map-outline" size={20} />
+            </TouchableOpacity>
+          </Link>
         </View>
       </Animated.View>
 
-      {/* Header 2 */}
+      {/* Header 2 — compact, visible when scrolled */}
       <Animated.View style={[styles.header2, header2Style]}>
         <View style={styles.centerContent}>
           <Text style={styles.titleSmall}>{title}</Text>
           <Link href={"/(app)/(auth)/(modal)/location"} asChild>
             <TouchableOpacity style={styles.locationSmall}>
-              <Text style={styles.locationSmallText}>Toronto</Text>
+              <Text style={styles.locationSmallText}>{locationLabel}</Text>
               <Ionicons name="chevron-down" size={14} />
             </TouchableOpacity>
           </Link>
@@ -135,6 +127,11 @@ const ExploreHeader = ({ title, scrollOffset }: ExploreHeaderProps) => {
                   <Text style={styles.badgeText}>{activeFilterCount}</Text>
                 </View>
               )}
+            </TouchableOpacity>
+          </Link>
+          <Link href={"/(app)/(auth)/(modal)/map"} asChild>
+            <TouchableOpacity style={styles.iconButton}>
+              <Ionicons name="map-outline" size={20} />
             </TouchableOpacity>
           </Link>
         </View>
